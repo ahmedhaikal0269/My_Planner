@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/awkward_gap"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         tools:ignore="contentDescription" />
@@ -18,10 +18,9 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/holo_blue_light"
-        android:text="Hey, FirstName"
-        android:textSize="18dp"
+        android:background="@color/light_grey"
+        android:text="Hey, User!"
+        android:textSize="25dp"
         android:gravity="center"
         android:layout_below="@id/awkward_gap"
         tools:ignore="HardcodedText, contentDescription"/>

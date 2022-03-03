@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +38,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
         this.taskListActivity = taskListActivity;
     }
 
+    @NonNull
     @Override
     public Task_View_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.task_cardview, parent, false);
@@ -87,7 +89,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
 
     @Override
     public int getItemCount() {
-        return taskList.size();
+        return 0;
     }
 
     public boolean checkTaskStatus(int status){

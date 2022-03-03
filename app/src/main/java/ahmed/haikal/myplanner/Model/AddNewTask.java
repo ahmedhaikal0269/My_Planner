@@ -1,13 +1,8 @@
 package ahmed.haikal.myplanner.Model;
 
-import android.app.Activity;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,32 +10,34 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import ahmed.haikal.myplanner.Controller.TaskListAdapter;
 import ahmed.haikal.myplanner.R;
+import ahmed.haikal.myplanner.View.TaskListActivity;
 
-public class CreateNewTask extends DialogFragment {
+public class AddNewTask extends DialogFragment {
 
     EditText taskInputText;
     TextView taskDate, taskReminder;
     Button saveTask, cancel;
-    String list_title;
+    static String list_title;
     String dialogTitle = "Add New Task";
+    TaskListActivity activity = new TaskListActivity();
+    TaskListAdapter taskListAdapter;
 
     /**
      * the constructor to this class is empty because it implements the
      * singleton design pattern.
      */
 
-    private CreateNewTask(){
+    private AddNewTask(){
         //empty constructor.
     }
 
-    public static CreateNewTask newInstance(){
-        return new CreateNewTask();
+    public static AddNewTask newInstance(String title){
+        list_title = title;
+        return new AddNewTask();
     }
 
     @Override
@@ -48,7 +45,7 @@ public class CreateNewTask extends DialogFragment {
 
         this.getDialog().setTitle("dialog title");
         this.getDialog().setCanceledOnTouchOutside(true);
-        View view = inflater.inflate(R.layout.create_new_task, group, false);
+        View view = inflater.inflate(R.layout.add_new_task, group, false);
         return view;
     }
 
@@ -63,6 +60,8 @@ public class CreateNewTask extends DialogFragment {
         taskReminder = view.findViewById(R.id.set_reminder);
         saveTask = view.findViewById(R.id.saveTask);
         cancel = view.findViewById(R.id.cancel);
+
+        taskListAdapter = activity.getTaskList_adapter();
 
         //=============== Add functionality to the components of the add new task page ===============//
 
@@ -100,9 +99,8 @@ public class CreateNewTask extends DialogFragment {
                 TaskCard task = new TaskCard(0,0, taskInput,
                         taskDate.getText().toString());
                 //add to adapter
-                //taskList_adapter.insertTask(task);
+                taskListAdapter.insertTask(task);
                 //add to database
-                System.out.println("task " + task.getTask() + " in list 'no idea'"  + " in index 0");
                 dismiss();
             }
         });

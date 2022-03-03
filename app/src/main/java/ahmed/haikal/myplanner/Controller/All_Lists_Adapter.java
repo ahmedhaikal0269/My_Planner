@@ -66,7 +66,7 @@ public class All_Lists_Adapter extends RecyclerView.Adapter<List_View_Holder> {
 
     // ----------------- View Holder Class ------------------//
 
-    class List_View_Holder extends RecyclerView.ViewHolder {
+    public static class List_View_Holder extends RecyclerView.ViewHolder {
 
         CardView listCardview;
         TextView list_title,numofTasks;
