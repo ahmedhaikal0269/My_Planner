@@ -29,10 +29,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/task_list_recyclerview"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/Tasks"
-        android:layout_marginHorizontal="20dp"
+        android:layout_centerHorizontal="true"
         android:nestedScrollingEnabled="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 

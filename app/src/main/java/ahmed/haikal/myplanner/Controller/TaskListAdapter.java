@@ -75,12 +75,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
                 if (holder.taskCheckBox.isChecked()){
                     holder.task.setTextColor(Color.GRAY);
                     holder.date.setTextColor(Color.GRAY);
+                    holder.reminder.setTextColor(Color.GRAY);
                     holder.task.setPaintFlags(holder.task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 }
                 else{
                     holder.task.setPaintFlags(0);
                     holder.task.setTextColor(Color.BLACK);
                     holder.date.setTextColor(Color.BLACK);
+                    holder.reminder.setTextColor(Color.BLACK);
                 }
             }
         });
