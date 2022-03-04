@@ -25,6 +25,7 @@ public class TaskListActivity extends AppCompatActivity {
     TextView list_title;
     RecyclerView taskList_recyclerview;
     String title;
+    static TaskListActivity activity = new TaskListActivity();
     static TaskListAdapter taskList_adapter;
     private FloatingActionButton addTask, backToMainScreen;
     static List<TaskCard> task_list;
@@ -51,8 +52,8 @@ public class TaskListActivity extends AppCompatActivity {
         //define the recyclerview and add it to the adapter
         taskList_recyclerview = findViewById(R.id.task_list_recyclerview);
         taskList_adapter = new TaskListAdapter(task_list, this);
-        taskList_recyclerview.setAdapter(taskList_adapter);
         taskList_recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        taskList_recyclerview.setAdapter(taskList_adapter);
 
         //add animation to the recyclerview
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
@@ -80,5 +81,8 @@ public class TaskListActivity extends AppCompatActivity {
     public TaskListAdapter getTaskList_adapter(){
         return taskList_adapter;
     }
-    
+
+    public static TaskListActivity getActivity() {
+        return activity;
+    }
 }

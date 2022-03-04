@@ -89,7 +89,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return taskList.size();
     }
 
     public boolean checkTaskStatus(int status){

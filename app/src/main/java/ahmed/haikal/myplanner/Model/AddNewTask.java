@@ -23,7 +23,7 @@ public class AddNewTask extends DialogFragment {
     Button saveTask, cancel;
     static String list_title;
     String dialogTitle = "Add New Task";
-    TaskListActivity activity = new TaskListActivity();
+    TaskListActivity activity = TaskListActivity.getActivity();
     TaskListAdapter taskListAdapter;
 
     /**
@@ -100,6 +100,7 @@ public class AddNewTask extends DialogFragment {
                         taskDate.getText().toString());
                 //add to adapter
                 taskListAdapter.insertTask(task);
+                System.out.println("I'm adding a task");
                 //add to database
                 dismiss();
             }

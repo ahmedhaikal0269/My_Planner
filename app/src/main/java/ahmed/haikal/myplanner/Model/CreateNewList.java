@@ -88,6 +88,7 @@ public class CreateNewList extends DialogFragment {
             //all lists will have a grey background until the choose color functionality is created
             ListCard newList = new ListCard(listTitleInputText.getText().toString(), 0, 0, Color.GRAY);
             all_lists_adapter.insert(newList);
+            System.out.println("I'm adding a list");
             dismiss();
         });
 
