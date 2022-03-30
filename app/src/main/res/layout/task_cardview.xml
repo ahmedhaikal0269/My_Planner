@@ -15,6 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:backgroundTint="@android:color/transparent"
         android:padding="10dp">
 
         <CheckBox
@@ -25,6 +26,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_centerVertical="true"
             tools:ignore="HardcodedText" />
 
         <TextView

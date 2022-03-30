@@ -26,14 +26,36 @@
         tools:ignore="HardcodedText, TextFields, Autofill" />
 
     <TextView
-        android:id="@+id/select_date"
+        android:id="@+id/select_date_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/taskInputText"
         android:layout_marginStart="15dp"
+        android:text="Due by: "
+        android:textSize="16sp"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/select_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/taskInputText"
+        android:layout_toEndOf="@id/select_date_title"
         android:clickable="true"
         android:focusable="true"
         android:text="Select a Date"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:layout_marginStart="10dp"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/set_reminder_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/select_date_title"
+       android:layout_marginStart="15dp"
+        android:text="Remind me at: "
         android:textSize="16sp"
         tools:ignore="HardcodedText" />
 
@@ -41,13 +63,14 @@
         android:id="@+id/set_reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/taskInputText"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="15dp"
+        android:layout_below="@id/select_date_title"
         android:clickable="true"
         android:focusable="true"
         android:text="Set Reminder"
         android:textSize="16sp"
+        android:textStyle="italic"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/set_reminder_title"
         tools:ignore="HardcodedText" />
 
     <Button

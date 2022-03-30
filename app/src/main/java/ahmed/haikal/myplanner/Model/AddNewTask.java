@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
-import ahmed.haikal.myplanner.Controller.TaskListAdapter;
+import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.TaskListActivity;
 

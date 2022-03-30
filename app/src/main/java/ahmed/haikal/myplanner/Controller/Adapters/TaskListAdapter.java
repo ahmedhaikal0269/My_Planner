@@ -1,4 +1,4 @@
-package ahmed.haikal.myplanner.Controller;
+package ahmed.haikal.myplanner.Controller.Adapters;
 
 /**
  *  This class will be responsible for filling up the task list (recyclerview) when
@@ -8,34 +8,45 @@ package ahmed.haikal.myplanner.Controller;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.Calendar;
 import java.util.List;
-
-import ahmed.haikal.myplanner.Controller.TaskListAdapter.Task_View_Holder;
+import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter.Task_View_Holder;
+import ahmed.haikal.myplanner.Controller.Listeners.ItemTouchListener;
+import ahmed.haikal.myplanner.Controller.Listeners.Task_Touch_Listener;
 import ahmed.haikal.myplanner.Model.TaskCard;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.TaskListActivity;
 
-public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
+public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> implements ItemTouchListener {
 
     private List<TaskCard> taskList;
     private TaskListActivity taskListActivity;
+    private Task_Touch_Listener taskTouchListener;
+
+    private final int taskCard_originalColor = Color.rgb(255,255,153);
+    private final int taskCard_isDoneColor = Color.LTGRAY;
 
 
     public TaskListAdapter(List<TaskCard> taskList, TaskListActivity taskListActivity) {
         this.taskList = taskList;
         this.taskListActivity = taskListActivity;
+    }
+
+    //set task touch listener
+
+    public void setTaskTouchListener(Task_Touch_Listener taskTouchListener) {
+        this.taskTouchListener = taskTouchListener;
     }
 
     @NonNull
@@ -51,6 +62,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
         TaskCard taskCard = taskList.get(position);
         holder.task.setText(taskCard.getTask());
         holder.date.setText(taskCard.getDate());
+        holder.task_cardview.setCardBackgroundColor(taskCard_originalColor);
         holder.date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,12 +88,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
                     holder.task.setTextColor(Color.GRAY);
                     holder.date.setTextColor(Color.GRAY);
                     holder.reminder.setTextColor(Color.GRAY);
+                    holder.task_cardview.setCardBackgroundColor(taskCard_isDoneColor);
                     holder.task.setPaintFlags(holder.task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 }
                 else{
                     holder.task.setPaintFlags(0);
                     holder.task.setTextColor(Color.BLACK);
                     holder.date.setTextColor(Color.BLACK);
+                    holder.task_cardview.setCardBackgroundColor(taskCard_originalColor);
                     holder.reminder.setTextColor(Color.BLACK);
                 }
             }
@@ -96,6 +110,30 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
 
     public boolean checkTaskStatus(int status){
         return status != 0;
+    }
+
+
+    //item touch(swipe and drag) listener methods
+    @Override
+    public void onItemMove(int fromPos, int toPos) {
+        TaskCard task = taskList.get(fromPos);
+        taskList.remove(fromPos);
+        taskList.add(toPos, task);
+        notifyItemMoved(fromPos, toPos);
+    }
+
+    @Override
+    public void onItemSwiped(int position, int direction) {
+        switch (direction) {
+            case 1:
+                //draw the delete image and perform delete upon confirmation
+                removeTask(position);
+                break;
+            case 2:
+                // draw edit and open an edit dialog fragment
+                break;
+
+        }
     }
 
 
@@ -118,14 +156,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
         notifyItemRemoved(position);
     }
 
-
-
     // ===================== View Holder inner class =====================//
-    class Task_View_Holder extends RecyclerView.ViewHolder{
+    class Task_View_Holder extends RecyclerView.ViewHolder {
 
         CardView task_cardview;
         TextView task, date, reminder;
         CheckBox taskCheckBox;
+
+        GestureDetector gestureDetector;
 
         public Task_View_Holder(View itemView) {
             super(itemView);
@@ -135,6 +173,5 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> {
             reminder = itemView.findViewById(R.id.set_reminder);
             taskCheckBox = itemView.findViewById(R.id.taskCheckBox);
         }
-
     }
 }

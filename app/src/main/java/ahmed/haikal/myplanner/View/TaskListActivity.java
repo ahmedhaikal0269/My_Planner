@@ -2,6 +2,7 @@ package ahmed.haikal.myplanner.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,20 +16,25 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import ahmed.haikal.myplanner.Controller.TaskListAdapter;
+import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter;
+import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
+import ahmed.haikal.myplanner.Controller.Listeners.ItemTouchListener;
+import ahmed.haikal.myplanner.Controller.Listeners.Task_Touch_Listener;
 import ahmed.haikal.myplanner.Model.AddNewTask;
 import ahmed.haikal.myplanner.Model.TaskCard;
 import ahmed.haikal.myplanner.R;
+import ahmed.haikal.myplanner.View.Main_Screen.MainScreenActivity;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    TextView list_title;
-    RecyclerView taskList_recyclerview;
-    String title;
-    static TaskListActivity activity = new TaskListActivity();
-    static TaskListAdapter taskList_adapter;
+    private TextView list_title;
+    private RecyclerView taskList_recyclerview;
+    private static final TaskListActivity activity = new TaskListActivity();
+    private static TaskListAdapter taskList_adapter;
     private FloatingActionButton addTask, backToMainScreen;
-    static List<TaskCard> task_list;
+    private static List<TaskCard> task_list;
+    private ItemTouchHelper.Callback callback;
+    private static DatabaseController dbController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +49,11 @@ public class TaskListActivity extends AppCompatActivity {
         Bundle import_data = getIntent().getExtras();
         if(list_title != null){
             String listTitle = import_data.getString("ListTitle");
-            title = listTitle;
+            //String title = listTitle;
             list_title.setText(listTitle);
         }
 
+        //here connect to database and get all saved tasks if any
         task_list = new ArrayList<>();
 
         //define the recyclerview and add it to the adapter
@@ -61,6 +68,10 @@ public class TaskListActivity extends AppCompatActivity {
         itemAnimator.setRemoveDuration(1000);
         taskList_recyclerview.setItemAnimator(itemAnimator);
 
+        //set onclick listener for the recyclerview
+        callback = new Task_Touch_Listener(taskList_adapter, this);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(taskList_recyclerview);
         //add button functionality
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override

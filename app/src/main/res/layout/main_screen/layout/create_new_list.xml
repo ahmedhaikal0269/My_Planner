@@ -35,13 +35,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change Background Color"
-            android:textSize="20sp"
-            android:textStyle="italic"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-
+            android:layout_marginBottom="5dp"
+            android:text="Change Background Color"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
         <Spinner
             android:id="@+id/backgroundColor"
@@ -54,7 +54,6 @@
             android:layout_marginBottom="5dp"
             android:contextClickable="true"
             android:padding="5dp" />
-
 
     </RelativeLayout>
 

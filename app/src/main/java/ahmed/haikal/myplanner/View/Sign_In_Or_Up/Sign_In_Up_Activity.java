@@ -1,4 +1,4 @@
-package ahmed.haikal.myplanner.View;
+package ahmed.haikal.myplanner.View.Sign_In_Or_Up;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;

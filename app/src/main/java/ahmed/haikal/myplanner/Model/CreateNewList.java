@@ -14,9 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import ahmed.haikal.myplanner.Controller.All_Lists_Adapter;
+import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter;
 import ahmed.haikal.myplanner.R;
-import ahmed.haikal.myplanner.View.All_Lists_Fragment;
+import ahmed.haikal.myplanner.View.Main_Screen.All_Lists_Fragment;
 
 public class CreateNewList extends DialogFragment {
 

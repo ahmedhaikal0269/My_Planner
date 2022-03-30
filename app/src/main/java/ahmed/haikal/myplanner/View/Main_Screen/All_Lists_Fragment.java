@@ -1,27 +1,24 @@
-package ahmed.haikal.myplanner.View;
+package ahmed.haikal.myplanner.View.Main_Screen;
 
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import ahmed.haikal.myplanner.Controller.All_Lists_Adapter;
-import ahmed.haikal.myplanner.Controller.MainList_ItemClickListener;
+import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter;
+import ahmed.haikal.myplanner.Controller.Listeners.ItemClickListener;
 import ahmed.haikal.myplanner.Model.CreateNewList;
 import ahmed.haikal.myplanner.Model.ListCard;
 import ahmed.haikal.myplanner.Model.List_Touch_Listener;
 import ahmed.haikal.myplanner.R;
+import ahmed.haikal.myplanner.View.TaskListActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,7 +94,7 @@ public class All_Lists_Fragment extends Fragment {
         all_lists_recyclerview.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
 
         //create a listener to the recyclerview so that it opens the list when clicked
-        all_lists_recyclerview.addOnItemTouchListener(new List_Touch_Listener(this.getActivity(), all_lists_recyclerview, new MainList_ItemClickListener() {
+        all_lists_recyclerview.addOnItemTouchListener(new List_Touch_Listener(this.getActivity(), all_lists_recyclerview, new ItemClickListener() {
 
             // this is the simple click on the list
             // this should take the list title and open a new page with all the tasks in that list

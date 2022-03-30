@@ -2,7 +2,10 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="All Lists"></item>
+    <item android:title="Home"></item>
     <item android:title="Today"></item>
+    <item android:title="Projects"></item>
+    <item android:title="Calender View"></item>
+    <item android:title="Sign Out"></item>
 
 </menu>

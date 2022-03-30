@@ -4,17 +4,16 @@ import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-
 import androidx.recyclerview.widget.RecyclerView;
 
-import ahmed.haikal.myplanner.Controller.MainList_ItemClickListener;
+import ahmed.haikal.myplanner.Controller.Listeners.ItemClickListener;
 
 public class List_Touch_Listener implements RecyclerView.OnItemTouchListener {
 
     private GestureDetector gestureDetector;
-    private MainList_ItemClickListener clickListener;
+    private ItemClickListener clickListener;
 
-    public List_Touch_Listener(Context context, final RecyclerView recyclerView, final MainList_ItemClickListener clickListener) {
+    public List_Touch_Listener(Context context, final RecyclerView recyclerView, final ItemClickListener clickListener) {
         this.clickListener = clickListener;
         this.gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
 

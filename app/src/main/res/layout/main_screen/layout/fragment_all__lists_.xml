@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Main_Screen.All_Lists_Fragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/newListButton">
+
+        <TextView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_grey"
+            android:text="Hey, User!"
+            android:padding="5dp"
+            android:textSize="25sp"
+            android:gravity="center"
+            tools:ignore="HardcodedText, contentDescription"/>
+
+        <TextView
+            android:id="@+id/all_lists_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
+            android:text="All Lists"
+            android:textSize="30sp"
+            tools:ignore="HardcodedText" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/all_Lists_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/all_lists_Title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:nestedScrollingEnabled="true"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/newListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@android:color/holo_red_light"
+        tools:ignore="ContentDescription,RelativeOverlap" />
+
+</RelativeLayout>

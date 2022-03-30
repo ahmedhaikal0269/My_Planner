@@ -1,4 +1,4 @@
-package ahmed.haikal.myplanner.Controller;
+package ahmed.haikal.myplanner.Controller.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,10 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Collections;
 import java.util.List;
 
-import ahmed.haikal.myplanner.Controller.All_Lists_Adapter.List_View_Holder;
+import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter.List_View_Holder;
 import ahmed.haikal.myplanner.Model.ListCard;
 import ahmed.haikal.myplanner.R;
 

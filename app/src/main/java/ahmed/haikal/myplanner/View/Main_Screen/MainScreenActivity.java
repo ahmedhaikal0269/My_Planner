@@ -1,13 +1,9 @@
-package ahmed.haikal.myplanner.View;
+package ahmed.haikal.myplanner.View.Main_Screen;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.drawable.Drawable;
@@ -16,7 +12,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import ahmed.haikal.myplanner.R;
@@ -61,6 +56,11 @@ public class MainScreenActivity extends AppCompatActivity {
         });
 
     }
+
+    /*
+    This class is an adapter for the viewPager on the MainScreenActivity.
+    The ViewPage that should host the fragment of the All_Lists and the fragment of TodayView
+    */
 
     private class AuthenticationPagerAdapter extends FragmentPagerAdapter {
 
