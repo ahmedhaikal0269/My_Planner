@@ -64,7 +64,6 @@ public class Task_Touch_Listener extends ItemTouchHelper.Callback {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Delete Task");
             builder.setMessage("Are you sure you want to delete this Task?");
-
             builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

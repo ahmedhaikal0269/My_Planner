@@ -60,9 +60,9 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
     @Override
     public void onBindViewHolder(Task_View_Holder holder, int position) {
         TaskCard taskCard = taskList.get(position);
+        holder.task_cardview.setCardBackgroundColor(getCardColor(taskCard.getStatus()));
         holder.task.setText(taskCard.getTask());
         holder.date.setText(taskCard.getDate());
-        holder.task_cardview.setCardBackgroundColor(taskCard_originalColor);
         holder.date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +102,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
         });
     }
 
-
     @Override
     public int getItemCount() {
         return taskList.size();
@@ -112,6 +111,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
         return status != 0;
     }
 
+    public int getCardColor(int status){
+        if(status == 0)
+            return taskCard_originalColor;
+        return taskCard_isDoneColor;
+    }
 
     //item touch(swipe and drag) listener methods
     @Override

@@ -97,8 +97,8 @@ public class AddNewTask extends DialogFragment {
                 String taskInput = taskInputText.getText().toString();
                 // get Date from User
                 TaskCard task = new TaskCard(0,0, taskInput,
-                        taskDate.getText().toString());
-                //add to adapter
+                        taskDate.getText().toString(), taskReminder.getText().toString());
+                //add to recyclerview
                 taskListAdapter.insertTask(task);
                 System.out.println("I'm adding a task");
                 //add to database
