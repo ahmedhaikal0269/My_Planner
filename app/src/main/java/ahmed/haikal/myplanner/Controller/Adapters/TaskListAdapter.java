@@ -71,7 +71,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
                 int month = calendar.get(Calendar.MONTH);
                 int year = calendar.get(Calendar.YEAR);
                 //pick the date
-                DatePickerDialog picker = new DatePickerDialog(taskListActivity.getApplicationContext(),
+                DatePickerDialog picker = new DatePickerDialog(view.getContext(),
                         (view1, year1, monthOfYear, dayOfMonth) -> holder.date.setText((monthOfYear+1) + "/" + dayOfMonth + "/" + year1), year, month, day);
                 picker.show();
             }

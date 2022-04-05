@@ -7,12 +7,10 @@
     tools:context=".View.Sign_In_Or_Up.LogInFragment">
 
     <ImageView
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="100dp"
         android:src="@drawable/full_logo_removebg" />
 
     <EditText

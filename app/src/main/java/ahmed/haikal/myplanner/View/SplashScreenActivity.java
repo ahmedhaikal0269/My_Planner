@@ -23,9 +23,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ImageView logo = findViewById(R.id.app_logo_image);
-                Animation animationUtils_1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_slide_in_left);
-                logo.startAnimation(animationUtils_1);
+                //ImageView logo = findViewById(R.id.app_logo_image);
+                //Animation animationUtils_1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_slide_in_left);
+                //logo.startAnimation(animationUtils_1);
                 startActivity(new Intent(getApplicationContext(), Sign_In_Up_Activity.class));
                 overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out);
                 finish();

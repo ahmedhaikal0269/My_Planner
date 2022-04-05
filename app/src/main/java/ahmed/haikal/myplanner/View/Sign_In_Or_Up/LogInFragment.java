@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Main_Screen.MainScreenActivity;
@@ -20,7 +21,8 @@ import ahmed.haikal.myplanner.View.Main_Screen.MainScreenActivity;
  */
 public class LogInFragment extends Fragment implements View.OnClickListener{
 
-    Button login;
+    private EditText usernameInput, passwordInput;
+    private Button login;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,6 +77,8 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
 
         // Inflate the layout for this fragment
         View loginView = inflater.inflate(R.layout.fragment_log_in, container, false);
+        usernameInput = loginView.findViewById(R.id.userName_login);
+        passwordInput = loginView.findViewById(R.id.password_login);
         login = loginView.findViewById(R.id.login_button);
         login.setOnClickListener(this);
         return loginView;
@@ -83,8 +87,13 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        //check database for credentials
+
         //retrieve user's lists from database and display it in the next page
+        String username = usernameInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        //check database for credentials
+
+        //if success, go to the next page
         startActivity(new Intent(getActivity().getApplication(), MainScreenActivity.class));
     }
 }

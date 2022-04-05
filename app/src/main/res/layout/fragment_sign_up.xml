@@ -7,25 +7,31 @@
     android:orientation="vertical"
     tools:context=".View.Sign_In_Or_Up.SignUpFragment">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="150dp"
-        android:src="@drawable/full_logo_removebg"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        />
-
-    <TextView
-        android:id="@+id/sign_up_logo"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/courgette"
-        android:text="Sign Up"
-        android:textAlignment="center"
-        android:textSize="45sp" />
+        android:orientation="horizontal"
+        android:padding="30dp"
+        >
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/full_logo_removebg"
+            />
+
+        <TextView
+            android:id="@+id/sign_up_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:fontFamily="@font/courgette"
+            android:layout_gravity="center"
+            android:text="Sign Up"
+            android:textAlignment="center"
+            android:textSize="45sp" />
+
+    </LinearLayout>
+
 
 
     <EditText
@@ -68,7 +74,20 @@
         android:textSize="15sp" />
 
     <EditText
-        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/username_signup"
+        android:hint="Pick a Username"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:padding="15dp"
+        android:fontFamily="@font/roboto_regular"
+        android:inputType="text"
+        android:background="@drawable/input_field_design"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/password_signup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Password"
@@ -83,7 +102,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/retype_password"
+        android:id="@+id/retype_password_signup"
         android:hint="Confirm Password"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

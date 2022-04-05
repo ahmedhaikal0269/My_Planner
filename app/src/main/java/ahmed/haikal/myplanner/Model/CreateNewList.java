@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,12 +18,15 @@ import androidx.fragment.app.DialogFragment;
 import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Main_Screen.All_Lists_Fragment;
+import top.defaults.colorpicker.ColorPickerPopup;
 
 public class CreateNewList extends DialogFragment {
 
     EditText listTitleInputText;
-    Button create, cancel;
+    Button color_button,create, cancel;
+    int selected_background_color = Color.GRAY;
     All_Lists_Adapter all_lists_adapter;
+
     private CreateNewList() {
         //empty constructor
     }
@@ -51,6 +55,7 @@ public class CreateNewList extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         listTitleInputText = view.findViewById(R.id.listTitleInputText);
+        color_button = view.findViewById(R.id.color_button);
         //submitColor
         create = view.findViewById(R.id.create);
         cancel = view.findViewById(R.id.back);
@@ -82,11 +87,33 @@ public class CreateNewList extends DialogFragment {
             }
         });
 
+        color_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ColorPickerPopup.Builder(getActivity())
+                        .showValue(true)
+                        .showIndicator(true)
+                        .okTitle("Confirm")
+                        .cancelTitle("cancel")
+                        .initialColor(Color.GRAY)
+                        .enableBrightness(true)
+                        .enableAlpha(true)
+                        .build()
+                        .show(view, new ColorPickerPopup.ColorPickerObserver() {
+                            @Override
+                            public void onColorPicked(int color) {
+                                color_button.setBackgroundColor(color);
+                                selected_background_color = color;
+                            }
+                        });
+
+            }
+        });
 
         //add button functionality
         create.setOnClickListener(view1 -> {
             //all lists will have a grey background until the choose color functionality is created
-            ListCard newList = new ListCard(listTitleInputText.getText().toString(), 0, 0, Color.GRAY);
+            ListCard newList = new ListCard(listTitleInputText.getText().toString(), 0, 0, selected_background_color);
             all_lists_adapter.insert(newList);
             System.out.println("I'm adding a list");
             dismiss();
