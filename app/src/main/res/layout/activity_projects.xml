@@ -4,41 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.Main_Screen.All_Lists_Fragment">
+    tools:context=".View.ProjectsActivity">
 
-    <TextView
-        android:id="@+id/projects_page_header"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/light_grey"
-        android:text="Hey, User!"
-        android:textSize="25dp"
-        android:gravity="center"
-        tools:ignore="HardcodedText, contentDescription"/>
+        android:layout_height="match_parent"
+        android:layout_above="@id/newProjectButton">
 
-    <TextView
-        android:id="@+id/projects_page_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/projects_page_header"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:text="Projects"
-        android:textSize="30sp"
-        tools:ignore="HardcodedText" />
+        <include
+            layout="@layout/main_toolbar"
+            android:id="@+id/app_main_toolbar"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/all_projects_recyclerview"
-        android:layout_below="@id/projects_page_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginVertical="10dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:nestedScrollingEnabled="true"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+        <TextView
+            android:id="@+id/projects_page_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/app_main_toolbar"
+            android:background="@color/light_grey"
+            android:gravity="center"
+            android:text="Hey, User!"
+            android:textSize="25dp"
+            tools:ignore="HardcodedText, contentDescription" />
 
+        <TextView
+            android:id="@+id/projects_page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/projects_page_header"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:text="Projects"
+            android:textSize="30sp"
+            tools:ignore="HardcodedText" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/all_projects_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/projects_page_title"
+            android:layout_centerHorizontal="true"
+            android:nestedScrollingEnabled="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newProjectButton"

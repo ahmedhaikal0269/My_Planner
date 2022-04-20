@@ -6,19 +6,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.Main_Screen.MainScreenActivity">
+<!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/app_main_toolbar"
+        android:gravity="center_vertical"
+        android:background="@android:color/holo_blue_light">
 
-    <ImageButton
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/main_dropdown"
-        android:background="@drawable/ic_dropdown_menu"
-        android:visibility="gone"/>
+        <Spinner
+            android:id="@+id/app_dropdown_menu"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:dropDownVerticalOffset="50dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pro Planner"
+            android:textSize="30sp"
+            android:fontFamily="@font/courgette"
+            android:layout_marginLeft="10dp"/>
+
+
+    </LinearLayout>
+-->
+
+    <include
+        layout="@layout/main_toolbar"
+        android:id="@+id/app_main_toolbar"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/main_screen_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/main_screen_tabs">
+        android:layout_above="@id/main_screen_tabs"
+        android:layout_below="@id/app_main_toolbar"
+        tools:ignore="UnknownId">
 
     </androidx.viewpager.widget.ViewPager>
 

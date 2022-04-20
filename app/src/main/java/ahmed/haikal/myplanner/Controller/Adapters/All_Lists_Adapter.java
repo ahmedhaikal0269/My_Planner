@@ -19,11 +19,9 @@ import ahmed.haikal.myplanner.R;
 public class All_Lists_Adapter extends RecyclerView.Adapter<List_View_Holder> {
 
     List<ListCard> all_lists;
-    Context context;
 
     public All_Lists_Adapter(List<ListCard> all_lists, Context context){
         this.all_lists = all_lists;
-        context = context;
     }
 
     @Override
@@ -39,7 +37,6 @@ public class All_Lists_Adapter extends RecyclerView.Adapter<List_View_Holder> {
         holder.list_title.setText(list.getNewListName());
         holder.numofTasks.setText(String.valueOf(list.getNumberOfTasks()));
         holder.listCardview.setCardBackgroundColor(list.getCardBackground());
-
     }
 
     @Override

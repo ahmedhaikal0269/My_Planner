@@ -22,13 +22,10 @@ public class Task_Touch_Listener extends ItemTouchHelper.Callback {
 
     private final TaskListAdapter taskListAdapter;
     private final Context context;
-    //ItemTouchListener itemTouchListener;
-
 
     //Constructor
     public Task_Touch_Listener(TaskListAdapter taskListAdapter, Context context){
         this.taskListAdapter = taskListAdapter;
-        //this.itemTouchListener = itemTouchListener;
         this.context = context;
     }
 
@@ -82,7 +79,7 @@ public class Task_Touch_Listener extends ItemTouchHelper.Callback {
         }
         else {
             //create an edit method
-            taskListAdapter.editTask(position);
+
         }
     }
 

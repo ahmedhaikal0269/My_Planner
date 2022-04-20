@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
+import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Main_Screen.MainScreenActivity;
 
@@ -23,6 +26,9 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
 
     private EditText usernameInput, passwordInput;
     private Button login;
+    private static TextView wrongCredentials;
+
+    private DatabaseController databaseController;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,13 +69,13 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-    }
+        //create connection with the database to validate login
+        databaseController = DatabaseController.getInstance();
 
-    /*
-    public void login(){
-        startActivity(new Intent(getActivity(), MainScreenActivity.class));
+        DatabaseTask databaseConnection = new DatabaseTask.Connect(databaseController);
+        databaseConnection.execute();
+
     }
-    */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,6 +85,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
         View loginView = inflater.inflate(R.layout.fragment_log_in, container, false);
         usernameInput = loginView.findViewById(R.id.userName_login);
         passwordInput = loginView.findViewById(R.id.password_login);
+        wrongCredentials = loginView.findViewById(R.id.wrongCredentials);
         login = loginView.findViewById(R.id.login_button);
         login.setOnClickListener(this);
         return loginView;
@@ -91,9 +98,15 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
         //retrieve user's lists from database and display it in the next page
         String username = usernameInput.getText().toString();
         String password = passwordInput.getText().toString();
-        //check database for credentials
 
-        //if success, go to the next page
-        startActivity(new Intent(getActivity().getApplication(), MainScreenActivity.class));
+        startActivity(new Intent(getActivity(), MainScreenActivity.class));
+        /*check database for credentials
+        DatabaseTask loginValidation = new DatabaseTask.Login(databaseController, username, password, getContext());
+        loginValidation.execute();
+        */
+    }
+
+    public static void loginFailed(){
+        wrongCredentials.setVisibility(View.VISIBLE);
     }
 }

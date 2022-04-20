@@ -31,9 +31,7 @@ import ahmed.haikal.myplanner.View.TaskListActivity;
 public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> implements ItemTouchListener {
 
     private List<TaskCard> taskList;
-    private TaskListActivity taskListActivity;
-    private Task_Touch_Listener taskTouchListener;
-
+    private final TaskListActivity taskListActivity;
     private final int taskCard_originalColor = Color.rgb(255,255,153);
     private final int taskCard_isDoneColor = Color.LTGRAY;
 
@@ -41,12 +39,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
     public TaskListAdapter(List<TaskCard> taskList, TaskListActivity taskListActivity) {
         this.taskList = taskList;
         this.taskListActivity = taskListActivity;
-    }
-
-    //set task touch listener
-
-    public void setTaskTouchListener(Task_Touch_Listener taskTouchListener) {
-        this.taskTouchListener = taskTouchListener;
     }
 
     @NonNull
@@ -128,16 +120,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
 
     @Override
     public void onItemSwiped(int position, int direction) {
-        switch (direction) {
-            case 1:
-                //draw the delete image and perform delete upon confirmation
-                removeTask(position);
-                break;
-            case 2:
-                // draw edit and open an edit dialog fragment
-                break;
 
-        }
     }
 
 
@@ -147,8 +130,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
     }
 
     //this method should allow the user to edit the task, date, or cancel the reminder
-    public void editTask(int position){
-
+    public void editTask(int position, String task){
+        taskList.get(position).setTask(task);
     }
 
     public void editTaskStatus(){
@@ -166,8 +149,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
         CardView task_cardview;
         TextView task, date, reminder;
         CheckBox taskCheckBox;
-
-        GestureDetector gestureDetector;
 
         public Task_View_Holder(View itemView) {
             super(itemView);

@@ -14,7 +14,7 @@ public interface CustomClickListenerInterface {
 
     public void onItemMove(int fromPos, int toPos);
 
-    public void onItemSwiped(int position, int direction);
+    public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int direction);
 
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive);
 }

@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     >
 
+    <include
+        layout="@layout/main_toolbar"
+        android:id="@+id/app_main_toolbar"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +18,8 @@
         android:textSize="28sp"
         android:textColor="@color/purple_500"
         android:layout_margin="10dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/app_main_toolbar"/>
 
     <TextView
         android:layout_width="wrap_content"

@@ -2,11 +2,12 @@ package ahmed.haikal.myplanner.Model;
 
 public class ProjectCard {
 
-    String projectName;
+    String projectName, projectDescription;
     int numOfTeamMembers, projectBackgroundColor;
 
-    public ProjectCard(String projectName, int numOfTeamMembers, int projectBackgroundColor) {
+    public ProjectCard(String projectName, String projectDescription, int numOfTeamMembers, int projectBackgroundColor) {
         this.projectName = projectName;
+        this.projectDescription = projectDescription;
         this.numOfTeamMembers = numOfTeamMembers;
         this.projectBackgroundColor = projectBackgroundColor;
     }
@@ -33,5 +34,9 @@ public class ProjectCard {
 
     public void setProjectBackgroundColor(int projectBackgroundColor) {
         this.projectBackgroundColor = projectBackgroundColor;
+    }
+
+    public String getProjectDescription() {
+        return projectDescription;
     }
 }

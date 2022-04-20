@@ -5,31 +5,34 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ToggleButton;
-
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import ahmed.haikal.myplanner.R;
+import ahmed.haikal.myplanner.View.ProjectsActivity;
+import ahmed.haikal.myplanner.View.Sign_In_Or_Up.Sign_In_Up_Activity;
 
 public class MainScreenActivity extends AppCompatActivity {
 
-    ViewPager main_screen_viewpager;
-    AuthenticationPagerAdapter pagerAdapter;
-    TabLayout mainScreenTabs;
-    ImageButton dropdown;
-    boolean menuOpened = false;
+    private ViewPager main_screen_viewpager;
+    private AuthenticationPagerAdapter pagerAdapter;
+    private TabLayout mainScreenTabs;
+
+    private Spinner dropDownMenu;
+    private ArrayList<String> list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-
-        dropdown = findViewById(R.id.main_dropdown);
 
         main_screen_viewpager = findViewById(R.id.main_screen_viewpager);
         mainScreenTabs = findViewById(R.id.main_screen_tabs);
@@ -39,24 +42,46 @@ public class MainScreenActivity extends AppCompatActivity {
         main_screen_viewpager.setAdapter(pagerAdapter);
         mainScreenTabs.setupWithViewPager(main_screen_viewpager);
 
-        dropdown.setOnClickListener(new View.OnClickListener() {
+        // drop down menu in toolbar
+        dropDownMenu = findViewById(R.id.app_dropdown_menu);
+        dropDownMenu.setBackground(getDrawable(R.drawable.ic_dropdown_menu));
+
+        list = new ArrayList<>();
+        list.add("Home");
+        list.add("Today");
+        list.add("Projects");
+        list.add("Sign Out");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.dropdown_menu_item, list);
+        dropDownMenu.setAdapter(dataAdapter);
+        dropDownMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Drawable menu_open = getDrawable(R.drawable.ic_arrow_upward_24);
-                Drawable menu_closed = getDrawable(R.drawable.ic_dropdown_menu);
-                if(menuOpened) {
-                    dropdown.setBackground(menu_closed);
-                    menuOpened = false;
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                String item = (String) adapterView.getItemAtPosition(position);
+                switch (item){
+                    case "Home":
+                        //do nothing cause we're already there
+                        break;
+                    case "Projects":
+                        startActivity(new Intent(getApplicationContext(), ProjectsActivity.class));
+                        break;
+                    case "Today":
+                        startActivity(new Intent(getApplicationContext(), TodayViewFragment.class));
+                        break;
+                    case "Sign Out":
+                        startActivity(new Intent(getApplicationContext(), Sign_In_Up_Activity.class));
+                        break;
                 }
-                else {
-                    dropdown.setBackground(menu_open);
-                    menuOpened = true;
-                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
     }
 
+//////////////////////////////////////   Fragment Pager Adapter   ////////////////////////////////////////////////
     /*
     This class is an adapter for the viewPager on the MainScreenActivity.
     The ViewPage that should host the fragment of the All_Lists and the fragment of TodayView

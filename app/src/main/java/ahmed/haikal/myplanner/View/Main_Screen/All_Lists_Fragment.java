@@ -3,6 +3,7 @@ package ahmed.haikal.myplanner.View.Main_Screen;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter;
 import ahmed.haikal.myplanner.Controller.Listeners.ItemClickListener;
 import ahmed.haikal.myplanner.Model.CreateNewList;
 import ahmed.haikal.myplanner.Model.ListCard;
-import ahmed.haikal.myplanner.Model.List_Touch_Listener;
+import ahmed.haikal.myplanner.Controller.Listeners.List_Touch_Listener;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.TaskListActivity;
 
@@ -28,10 +29,10 @@ import ahmed.haikal.myplanner.View.TaskListActivity;
  */
 public class All_Lists_Fragment extends Fragment {
 
-    RecyclerView all_lists_recyclerview;
-    FloatingActionButton addNewList;
-    static All_Lists_Adapter all_lists_adapter;
-    static List<ListCard> all_listCards;
+    private RecyclerView all_lists_recyclerview;
+    private FloatingActionButton addNewList;
+    private static All_Lists_Adapter all_lists_adapter;
+    private static List<ListCard> all_listCards;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,6 +86,8 @@ public class All_Lists_Fragment extends Fragment {
         all_lists_recyclerview = view.findViewById(R.id.all_Lists_recyclerview);
         addNewList = view.findViewById(R.id.newListButton);
 
+
+
         //List of all the lists that will be appear on the page
         all_listCards = new ArrayList<>();
 
@@ -108,8 +111,7 @@ public class All_Lists_Fragment extends Fragment {
                 String listName = all_listCards.get(position).getNewListName();
                 intent.putExtra("ListTitle", listName);
                 startActivity(intent);
-                //overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-
+                getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
 
             /*
@@ -127,6 +129,13 @@ public class All_Lists_Fragment extends Fragment {
             }
         }));
 
+        //Add new list recyclerview Animation
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        all_lists_recyclerview.setItemAnimator(itemAnimator);
+
+        //Add new List button functionality
         addNewList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

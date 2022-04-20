@@ -14,18 +14,17 @@
         android:src="@drawable/full_logo_removebg" />
 
     <EditText
+        android:id="@+id/userName_login"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/userName_login"
-        android:hint="Username"
-        android:textSize="15sp"
-        android:layout_marginHorizontal="20dp"
         android:layout_centerInParent="true"
-        android:padding="15dp"
-        android:inputType="text"
-        android:fontFamily="@font/roboto_regular"
+        android:layout_marginHorizontal="20dp"
         android:background="@drawable/input_field_design"
-        />
+        android:fontFamily="@font/roboto_regular"
+        android:hint="Username"
+        android:inputType="text"
+        android:padding="15dp"
+        android:textSize="15sp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -54,13 +53,27 @@
         android:text="Forgot Password?"
         android:textColor="@android:color/holo_blue_dark" />
 
+    <TextView
+        android:id="@+id/wrongCredentials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forgot_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="wrong username or password"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="20sp"
+        android:visibility="invisible" />
+
     <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/forgot_password"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="40dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/button_design"
         android:fontFamily="@font/roboto_regular"

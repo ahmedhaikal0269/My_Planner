@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,6 +27,8 @@ import ahmed.haikal.myplanner.Model.AddNewTask;
 import ahmed.haikal.myplanner.Model.TaskCard;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Main_Screen.MainScreenActivity;
+import ahmed.haikal.myplanner.View.Main_Screen.TodayViewFragment;
+import ahmed.haikal.myplanner.View.Sign_In_Or_Up.Sign_In_Up_Activity;
 
 public class TaskListActivity extends AppCompatActivity {
 
@@ -36,10 +41,38 @@ public class TaskListActivity extends AppCompatActivity {
     private ItemTouchHelper.Callback callback;
     private static DatabaseController dbController;
 
+    private Spinner dropDownMenu;
+    private ArrayList<String> list;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
+
+        //toolbar dropdown menu
+        dropDownMenu = findViewById(R.id.app_dropdown_menu);
+        dropDownMenu.setBackground(getDrawable(R.drawable.ic_dropdown_menu));
+
+        list = new ArrayList<>();
+        list.add("Home");
+        list.add("Today");
+        list.add("Projects");
+        list.add("Sign Out");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.dropdown_menu_item, list);
+        dropDownMenu.setAdapter(dataAdapter);
+        dropDownMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                String item = (String) adapterView.getItemAtPosition(position);
+                menuOptionSelected(item);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         list_title = findViewById(R.id.list_title);
         addTask = findViewById(R.id.add_item_fab);
@@ -87,6 +120,23 @@ public class TaskListActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
             }
         });
+    }
+
+    public void menuOptionSelected(String item){
+        switch (item){
+            case "Home":
+                startActivity(new Intent(getApplicationContext(), MainScreenActivity.class));
+                break;
+            case "Projects":
+                startActivity(new Intent(getApplicationContext(), ProjectsActivity.class));
+                break;
+            case "Today":
+                startActivity(new Intent(getApplicationContext(), TodayViewFragment.class));
+                break;
+            case "Sign Out":
+                startActivity(new Intent(getApplicationContext(), Sign_In_Up_Activity.class));
+                break;
+        }
     }
 
     public TaskListAdapter getTaskList_adapter(){

@@ -14,16 +14,23 @@ import ahmed.haikal.myplanner.R;
 
 public class Sign_In_Up_Activity extends AppCompatActivity {
 
+    private ViewPager sign_in_up_viewpager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_up);
-        ViewPager sign_in_up_viewpager = findViewById(R.id.sign_in_up_viewpager);
+        sign_in_up_viewpager = findViewById(R.id.sign_in_up_viewpager);
 
         Sign_In_Up_Activity.AuthenticationPagerAdapter pagerAdapter = new Sign_In_Up_Activity.AuthenticationPagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragmet(new LogInFragment());
         pagerAdapter.addFragmet(new SignUpFragment());
         sign_in_up_viewpager.setAdapter(pagerAdapter);
+
+    }
+
+    public void switchFragments(int fragNum){
+        sign_in_up_viewpager.setCurrentItem(fragNum);
     }
 
     /**
