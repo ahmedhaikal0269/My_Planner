@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mysql.cj.protocol.Resultset;
+
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -58,23 +61,35 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
 
         private String username, password;
         private boolean validated = false;
+        private int userID;
+        private Context context;
 
         public Login(DatabaseController databaseController, String username, String password, Context context ) {
             super(databaseController, "", context);
             this.username = username;
             this.password = password;
+            this.context = context;
+            System.out.println("given username: " + username + " and given password: "
+             + password);
         }
 
         public boolean validate(){
             boolean success = false;
-            String query = "SELECT Password FROM LOGIN WHERE Username = '" + username + "'";
+            String query = "SELECT * FROM USERS WHERE Username = '" + username + "'";
 
             try{
                 ResultSet resultSet = databaseController.executeResultsQuery(query);
                 if(resultSet.next()){
+                    String correctUname = resultSet.getString("Username");
                     String correctPassword = resultSet.getString("Password");
-                    if(password.equals(correctPassword))
+                    System.out.println(" Uname: " + correctUname);
+                    System.out.println(" password: " + correctPassword);
+                    if(password.equals(correctPassword)) {
+                        userID = resultSet.getInt("UserID");
                         success = true;
+                    }
+                    else
+                        System.out.println("didn't work");
                 }
                 databaseController.closeResultSet(resultSet);
 
@@ -86,24 +101,17 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            validated =  validate();
+            if(validate()) {
+                LogInFragment.loginSuccess(context, username, userID);
+                validated = true;
+            }
             return null;
-        }
-
-        public void loginFailed(){
-            LogInFragment.loginFailed();
         }
 
         @Override
         protected void onPostExecute(Void unused) {
-            if (validated){
-                    Intent intent = new Intent(context, MainScreenActivity.class);
-                context.startActivity(intent);
-            }
-            else {
-                loginFailed();
-            }
-
+            if(!validated)
+                LogInFragment.loginFailed();
         }
     }
 
@@ -155,14 +163,80 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
             return query;
         }
 
-        //this boolean should check if the the username already exists since it has to be unique
-        public boolean getRecord(String retrievalValue){
+        @Override
+        protected Void doInBackground(Void... voids) {
+            databaseController.executeUpdateQuery(insertNew(tableName, insertionFields, insertionValues));
+            return null;
+        }
+    }
+
+    public static class CreateUser extends DatabaseTask {
+
+        private ArrayList<String> userFields, userValues;
+        private String givenUsername;
+        public CreateUser(DatabaseController databaseController, ArrayList<String> userFields,
+                          ArrayList<String> uservalues, Context context) {
+            super(databaseController, "", context);
+            this.userFields = userFields;
+            this.userValues = uservalues;
+            givenUsername = uservalues.get(3);
+        }
+
+        public boolean checkIfUsernameExists(String username){
+            String query = "SELECT * FROM USERS WHERE Username = " + username;
+            ResultSet resultset = databaseController.executeResultsQuery(query);
+            System.out.println("check username query is: " + query);
+            try {
+                if(resultset.next())
+                    return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
             return false;
+        }
+
+        public String createUser(ArrayList<String> fields, ArrayList<String> values){
+
+            String insertionQuery = "INSERT INTO USERS ";
+
+            if(fields.size() == values.size() && !fields.isEmpty()){
+                StringBuilder fieldList = new StringBuilder(" ( ");
+                for(int i = 0; i < fields.size(); i++){
+                    String field = fields.get(i);
+                    if(i != fields.size() - 1)
+                        fieldList.append(field).append(", ");
+                    else
+                        fieldList.append(field);
+                }
+                fieldList.append(")");
+                insertionQuery += fieldList + " VALUES ";
+
+                StringBuilder valueList = new StringBuilder("( ");
+                for(int i = 0; i < values.size(); i++){
+                    String value = values.get(i);
+                    if(i != values.size() - 1)
+                        valueList.append(value).append(", ");
+                    else
+                        valueList.append(value);
+                }
+                valueList.append(")");
+                insertionQuery += valueList;
+            }
+
+            System.out.println(insertionQuery);
+            return insertionQuery;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            databaseController.executeUpdateQuery(insertNew(tableName, insertionFields, insertionValues));
+            if (!checkIfUsernameExists(givenUsername)) {
+                databaseController.executeUpdateQuery(createUser(userFields, userValues));
+                SignUpFragment.signUpSuccess(context);
+            }
+            else {
+                SignUpFragment.signUpFailure(context);
+            }
             return null;
         }
     }
@@ -193,12 +267,7 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            if(valueExists(tableName, retrievalField, retrievalValue)) {
-                SignUpFragment.setUsernameExists(true);
-            }
-            else {
-                SignUpFragment.setUsernameExists(false);
-            }
+
             return null;
         }
     }

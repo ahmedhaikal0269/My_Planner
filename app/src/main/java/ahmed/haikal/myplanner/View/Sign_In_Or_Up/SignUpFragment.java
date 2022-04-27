@@ -1,10 +1,14 @@
 package ahmed.haikal.myplanner.View.Sign_In_Or_Up;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
@@ -26,10 +32,10 @@ public class SignUpFragment extends Fragment {
 
     private EditText firstName, lastName, email, username, password, retypePassword;
     private Button signup;
-    TextView inputErrorMsg;
+    private TextView inputErrorMsg;
     private DatabaseController databaseController;
 
-    private static boolean usernameExists = false;
+    //private static boolean usernameExists = false;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +67,8 @@ public class SignUpFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,7 +122,7 @@ public class SignUpFragment extends Fragment {
                     userFields.add("FirstName");
                     userFields.add("LastName");
                     userFields.add("Email");
-                    userFields.add("UserName");
+                    userFields.add("Username");
                     userFields.add("Password");
 
                     ArrayList<String> userValues = new ArrayList<>();
@@ -125,21 +133,12 @@ public class SignUpFragment extends Fragment {
                     userValues.add(u_name);
                     userValues.add(p_word);
 
-
-                    //check if user already exists
-                    DatabaseTask checkIfUnameExists = new DatabaseTask.Retrieve(databaseController, "USERS",
-                            "Username", u_name, getActivity());
-                    checkIfUnameExists.execute();
                     //create a record in the USER table
-                    if(!isUsernameExists()) {
-                        DatabaseTask createUserAccount = new DatabaseTask.Insert(databaseController,
-                                "USERS", userFields, userValues, getActivity());
-                        createUserAccount.execute();
-                        System.out.println("username doesn't exists");
-                    }
-                    else
-                        System.out.println("username already exists");
+                    DatabaseTask createUserAccount = new DatabaseTask.CreateUser(databaseController,
+                            userFields, userValues, getActivity());
+                    createUserAccount.execute();
 
+                    //minimize keyboard when user clicks "sign up" button
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
@@ -148,7 +147,10 @@ public class SignUpFragment extends Fragment {
                     ArrayList<EditText> errorFields = new ArrayList<>();
                     errorFields.add(password);
                     errorFields.add(retypePassword);
-                    showErrorMessage(errorFields, "");
+                    showErrorMessage(errorFields, "password much match in both fields");
+
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
 
             }
@@ -168,11 +170,23 @@ public class SignUpFragment extends Fragment {
         inputErrorMsg.setText(errorMessage);
     }
 
-    public static boolean isUsernameExists(){
-        return usernameExists;
+    public static void signUpSuccess(Context context){
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "New Account Created Successfully", Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
-    public static void setUsernameExists(boolean exists){
-        usernameExists = exists;
+    public static void signUpFailure(Context context) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "Username Already Exists, choose another one", Toast.LENGTH_LONG).show();
+            }
+        });
     }
+
 }

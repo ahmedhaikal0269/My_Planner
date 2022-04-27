@@ -32,110 +32,106 @@
 
     </LinearLayout>
 
-
-
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/input_firstName"
-        android:hint="First Name"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="10dp"
-        android:padding="15dp"
-        android:inputType="textPersonName"
-        android:fontFamily="@font/roboto_regular"
-        android:background="@drawable/input_field_design"
-        android:textSize="15sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/input_lastName"
-        android:hint="Last Name"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="10dp"
-        android:padding="15dp"
-        android:inputType="textPersonName"
-        android:fontFamily="@font/roboto_regular"
-        android:background="@drawable/input_field_design"
-        android:textSize="15sp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/input_firstName"
+            android:hint="First Name"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:inputType="textPersonName"
+            android:fontFamily="@font/roboto_regular"
+            android:background="@drawable/input_field_design"
+            android:textSize="15sp" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/input_email"
-        android:hint="E-mail"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="10dp"
-        android:padding="15dp"
-        android:fontFamily="@font/roboto_regular"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/input_field_design"
-        android:textSize="15sp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/input_lastName"
+            android:hint="Last Name"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:inputType="textPersonName"
+            android:fontFamily="@font/roboto_regular"
+            android:background="@drawable/input_field_design"
+            android:textSize="15sp" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/username_signup"
-        android:hint="Pick a Username"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="10dp"
-        android:padding="15dp"
-        android:fontFamily="@font/roboto_regular"
-        android:inputType="text"
-        android:background="@drawable/input_field_design"
-        android:textSize="15sp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/input_email"
+            android:hint="E-mail"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:fontFamily="@font/roboto_regular"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/input_field_design"
+            android:textSize="15sp" />
 
-    <EditText
-        android:id="@+id/password_signup"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Password"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="10dp"
-        android:padding="15dp"
-        android:fontFamily="@font/roboto_regular"
-        android:inputType="textPassword"
-        android:background="@drawable/input_field_design"
-        android:textSize="15sp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/username_signup"
+            android:hint="Pick a Username"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:fontFamily="@font/roboto_regular"
+            android:inputType="text"
+            android:background="@drawable/input_field_design"
+            android:textSize="15sp" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/retype_password_signup"
-        android:hint="Confirm Password"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:padding="15dp"
-        android:fontFamily="@font/roboto_regular"
-        android:inputType="textPassword"
-        android:background="@drawable/input_field_design"
-        android:textSize="15sp" />
+        <EditText
+            android:id="@+id/password_signup"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Password"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:fontFamily="@font/roboto_regular"
+            android:inputType="textPassword"
+            android:background="@drawable/input_field_design"
+            android:textSize="15sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/retype_password_signup"
+            android:hint="Confirm Password"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:padding="15dp"
+            android:fontFamily="@font/roboto_regular"
+            android:inputType="textPassword"
+            android:background="@drawable/input_field_design"
+            android:textSize="15sp" />
+
 
         <TextView
             android:id="@+id/inputErrorMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/sign_up_button"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginVertical="15dp"
+            android:layout_gravity="center_horizontal"
+            android:text=""
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="20sp" />
+            android:textSize="15sp"
+            android:visibility="visible"/>
 
 
         <Button
             android:id="@+id/sign_up_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_marginHorizontal="20dp"
             android:background="@drawable/button_design"
             android:fontFamily="@font/roboto_regular"
@@ -147,13 +143,12 @@
             android:id="@+id/swipeLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="10dp"
             android:fontFamily="@font/roboto_regular"
             android:text="Already have an account? Swipe Right to Log in"
             android:textSize="15sp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

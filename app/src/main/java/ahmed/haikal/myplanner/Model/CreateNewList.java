@@ -15,7 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.ArrayList;
+
 import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter;
+import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
+import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Main_Screen.All_Lists_Fragment;
 import top.defaults.colorpicker.ColorPickerPopup;
@@ -113,8 +117,18 @@ public class CreateNewList extends DialogFragment {
         //add button functionality
         create.setOnClickListener(view1 -> {
             //all lists will have a grey background until the choose color functionality is created
+            //add list in recyclerview
             ListCard newList = new ListCard(listTitleInputText.getText().toString(), 0, 0, selected_background_color);
             all_lists_adapter.insert(newList);
+
+            //add list in database
+            ArrayList<String> inputFields = new ArrayList<>();
+            inputFields.add("");
+
+            ArrayList<String> inputValues = new ArrayList<>();
+            DatabaseTask createNewList = new DatabaseTask.Insert(DatabaseController.getInstance(),
+                    "LISTS", inputFields, inputValues, getContext());
+            //createNewList.execute();
             System.out.println("I'm adding a list");
             dismiss();
         });

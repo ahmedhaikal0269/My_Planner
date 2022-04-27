@@ -12,21 +12,9 @@
         android:layout_above="@id/newListButton">
 
         <TextView
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/light_grey"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Hey, User!"
-            android:textSize="25sp"
-            tools:ignore="HardcodedText, contentDescription" />
-
-        <TextView
             android:id="@+id/all_lists_Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/header"
             android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
             android:text="All Lists"

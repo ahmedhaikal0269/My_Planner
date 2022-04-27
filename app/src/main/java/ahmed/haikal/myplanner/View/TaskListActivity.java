@@ -77,15 +77,15 @@ public class TaskListActivity extends AppCompatActivity {
         list_title = findViewById(R.id.list_title);
         addTask = findViewById(R.id.add_item_fab);
         backToMainScreen = findViewById(R.id.back_to_mainScreen_fab);
-
+/*
         //set TaskList Title
         Bundle import_data = getIntent().getExtras();
         if(list_title != null){
             String listTitle = import_data.getString("ListTitle");
-            //String title = listTitle;
+            String title = listTitle;
             list_title.setText(listTitle);
         }
-
+*/
         //here connect to database and get all saved tasks if any
         task_list = new ArrayList<>();
 
@@ -116,8 +116,8 @@ public class TaskListActivity extends AppCompatActivity {
         backToMainScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(TaskListActivity.this, MainScreenActivity.class));
-                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
+                //startActivity(new Intent(TaskListActivity.this, MainScreenActivity.class));
+                //overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
             }
         });
     }

@@ -35,7 +35,7 @@
             android:id="@+id/task_name"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:layout_margin="2dp"
+            android:layout_centerVertical="true"
             android:layout_marginStart="7dp"
             android:layout_toEndOf="@id/taskCheckBox"
             tools:ignore="RelativeOverlap" />
@@ -44,31 +44,16 @@
             android:id="@+id/task_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/task_name"
             android:layout_marginStart="2dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="2dp"
             android:layout_marginBottom="2dp"
-            android:layout_toEndOf="@id/taskCheckBox"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:text="Select Date"
             android:textColor="@color/black"
             android:textSize="14sp"
             tools:ignore="HardcodedText" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/set_reminder"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
-            android:layout_below="@id/task_name"
-            android:layout_alignParentEnd="true"
-            android:text="Set Reminder"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            tools:ignore="HardcodedText"/>
 
     </RelativeLayout>
 

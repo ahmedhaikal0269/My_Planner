@@ -33,6 +33,7 @@ public class Sign_In_Up_Activity extends AppCompatActivity {
         sign_in_up_viewpager.setCurrentItem(fragNum);
     }
 
+
     /**
      * View pager adapter class to connect the log in and sign up fragments to the main activity
      */

@@ -69,7 +69,6 @@ public class All_Lists_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -86,13 +85,12 @@ public class All_Lists_Fragment extends Fragment {
         all_lists_recyclerview = view.findViewById(R.id.all_Lists_recyclerview);
         addNewList = view.findViewById(R.id.newListButton);
 
-
-
         //List of all the lists that will be appear on the page
         all_listCards = new ArrayList<>();
 
+
         //create adapter and attach recyclerview to it
-        all_lists_adapter = new All_Lists_Adapter(all_listCards, this.getContext());
+        all_lists_adapter = new All_Lists_Adapter(all_listCards, this.getActivity());
         all_lists_recyclerview.setAdapter(all_lists_adapter);
         all_lists_recyclerview.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
 
@@ -107,11 +105,11 @@ public class All_Lists_Fragment extends Fragment {
                 All_Lists_Adapter.List_View_Holder holder = new All_Lists_Adapter.List_View_Holder(view);
 
                 //open the list
-                Intent intent = new Intent(getActivity(), TaskListActivity.class);
-                String listName = all_listCards.get(position).getNewListName();
-                intent.putExtra("ListTitle", listName);
+                Intent intent = new Intent(getContext(), TaskListActivity.class);
+                //String listName = all_listCards.get(position).getNewListName();
+                //intent.putExtra("ListTitle", listName);
                 startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                //getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
 
             /*

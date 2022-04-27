@@ -13,10 +13,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.ProjectsActivity;
+import ahmed.haikal.myplanner.View.Sign_In_Or_Up.LogInFragment;
 import ahmed.haikal.myplanner.View.Sign_In_Or_Up.Sign_In_Up_Activity;
 
 public class MainScreenActivity extends AppCompatActivity {
@@ -24,16 +27,16 @@ public class MainScreenActivity extends AppCompatActivity {
     private ViewPager main_screen_viewpager;
     private AuthenticationPagerAdapter pagerAdapter;
     private TabLayout mainScreenTabs;
-
+    private TextView header;
     private Spinner dropDownMenu;
     private ArrayList<String> list;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+        header = findViewById(R.id.header);
         main_screen_viewpager = findViewById(R.id.main_screen_viewpager);
         mainScreenTabs = findViewById(R.id.main_screen_tabs);
         pagerAdapter = new AuthenticationPagerAdapter(getSupportFragmentManager());
@@ -50,6 +53,7 @@ public class MainScreenActivity extends AppCompatActivity {
         list.add("Home");
         list.add("Today");
         list.add("Projects");
+        list.add("Calender");
         list.add("Sign Out");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, R.layout.dropdown_menu_item, list);
         dropDownMenu.setAdapter(dataAdapter);
@@ -79,9 +83,14 @@ public class MainScreenActivity extends AppCompatActivity {
             }
         });
 
+        //set user name in greeting bar
+        Bundle importData = getIntent().getExtras();
+    //    String username = importData.getString("username");
+    //    header.setText("Hey, " + username + "!");
+    //    System.out.println("username from intent: " + username);
     }
 
-//////////////////////////////////////   Fragment Pager Adapter   ////////////////////////////////////////////////
+//////////////////////////////////////   Fragment Pager Adapter   ////////////////////////////////////////////
     /*
     This class is an adapter for the viewPager on the MainScreenActivity.
     The ViewPage that should host the fragment of the All_Lists and the fragment of TodayView

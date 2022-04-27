@@ -37,6 +37,19 @@
         layout="@layout/main_toolbar"
         android:id="@+id/app_main_toolbar"/>
 
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_grey"
+        android:layout_below="@id/app_main_toolbar"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Hey, User!"
+        android:textSize="25sp"
+        tools:ignore="HardcodedText, contentDescription" />
+
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/main_screen_viewpager"
         android:layout_width="match_parent"

@@ -22,8 +22,8 @@ public class DatabaseController {
     private final String dbUsername;
     private final String dbPassword;
     private static final DatabaseController databaseController = new DatabaseController(
-            "jdbc:jtds:sqlserver://192.168.0.16:1433;databaseName=MyPlanner",
-            "sa", "hklkkms");
+            "jdbc:jtds:sqlserver://10.0.2.2:1433;databaseName=MyPlanner",
+            "sa", "mouserat");
 
     private Connection connection;
     private Statement statement;
@@ -56,13 +56,11 @@ public class DatabaseController {
 
         try{
             loadDriver();
-            //connection = DriverManager.getConnection(connectionString, dbUsername, dbPassword);
-            Log.d("", "openConnection: ");
+            connection = DriverManager.getConnection(connectionString, dbUsername, dbPassword);
             System.out.println("connection opened successfully");
             return true;
         } catch (Exception e){
-            Log.d("", "couldn't open connection ");
-            System.out.println("connection didn't work out");
+            System.out.println("couldn't connect");
             e.printStackTrace();
         }
         return false;
@@ -76,7 +74,7 @@ public class DatabaseController {
         try{
             if(!query.isEmpty()){
                 statement = connection.createStatement();
-                resultSet =statement.executeQuery(query);
+                resultSet = statement.executeQuery(query);
             }
         } catch (SQLException e){
             e.printStackTrace();

@@ -62,10 +62,9 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="wrong username or password"
+        android:text=""
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="20sp"
-        android:visibility="invisible" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/login_button"

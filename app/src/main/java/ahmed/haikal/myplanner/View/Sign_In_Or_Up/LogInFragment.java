@@ -1,13 +1,20 @@
 package ahmed.haikal.myplanner.View.Sign_In_Or_Up;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -91,22 +98,70 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
         return loginView;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // this will make the "wrong username or password warning disappear
+        usernameInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                wrongCredentials.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        passwordInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                wrongCredentials.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
 
     @Override
     public void onClick(View view) {
 
-        //retrieve user's lists from database and display it in the next page
+        //get given username and password to validate the login
         String username = usernameInput.getText().toString();
         String password = passwordInput.getText().toString();
 
-        startActivity(new Intent(getActivity(), MainScreenActivity.class));
-        /*check database for credentials
+        //check database for credentials
         DatabaseTask loginValidation = new DatabaseTask.Login(databaseController, username, password, getContext());
         loginValidation.execute();
-        */
+
+        //minimize keyboard
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
 
+    public static void loginSuccess(Context context, String username, int userID) {
+        Intent intent = new Intent(context, MainScreenActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("username", username);
+        context.startActivity(intent);
+        System.out.println("user id: " + userID);
+    }
     public static void loginFailed(){
-        wrongCredentials.setVisibility(View.VISIBLE);
+        wrongCredentials.setText("wrong username or password");
     }
 }
