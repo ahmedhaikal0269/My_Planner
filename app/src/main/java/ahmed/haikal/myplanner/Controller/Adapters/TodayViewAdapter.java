@@ -1,10 +1,5 @@
 package ahmed.haikal.myplanner.Controller.Adapters;
 
-/**
- *  This class will be responsible for filling up the task list (recyclerview) when
- *  the user clicks on the list, this class will be called and it will receive a list of the tasks
- *  and it will fill out the task cards and create the view for the user
- *  */
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.res.ColorStateList;
@@ -16,26 +11,27 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Calendar;
 import java.util.List;
-import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter.Task_View_Holder;
+
 import ahmed.haikal.myplanner.Controller.Listeners.ItemTouchListener;
 import ahmed.haikal.myplanner.Model.TaskCard;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Fragments.TaskListFragment;
+import ahmed.haikal.myplanner.View.Fragments.TodayViewFragment;
 
-public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> implements ItemTouchListener {
-
+public class TodayViewAdapter extends RecyclerView.Adapter<TodayViewAdapter.Task_View_Holder> implements ItemTouchListener {
     private List<TaskCard> taskList;
     private final int taskCard_originalColor = Color.rgb(255,255,153);
     private final int taskCard_isDoneColor = Color.LTGRAY;
 
 
-    public TaskListAdapter(List<TaskCard> taskList) {
+    public TodayViewAdapter (List<TaskCard> taskList) {
         this.taskList = taskList;
     }
 
@@ -100,7 +96,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
                     holder.task_cardview.setCardBackgroundColor(taskCard_isDoneColor);
                     holder.task.setPaintFlags(holder.task.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     //update task date in database
-                    TaskListFragment.updateTaskInDB(position, "Status", String.valueOf(1));
+                    TodayViewFragment.updateTaskInDB(position, "Status", String.valueOf(1));
                 }
                 else{
                     holder.task.setPaintFlags(0);
@@ -109,7 +105,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<Task_View_Holder> impl
                     holder.task_cardview.setCardBackgroundColor(taskCard_originalColor);
                     holder.reminder.setTextColor(Color.BLACK);
                     //update task date in database
-                    TaskListFragment.updateTaskInDB(position, "Status", String.valueOf(0));
+                    TodayViewFragment.updateTaskInDB(position, "Status", String.valueOf(0));
                 }
             }
         });

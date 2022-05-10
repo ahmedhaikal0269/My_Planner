@@ -8,24 +8,27 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter;
+import ahmed.haikal.myplanner.Controller.Adapters.TodayViewAdapter;
 import ahmed.haikal.myplanner.R;
-import ahmed.haikal.myplanner.View.TaskListActivity;
+import ahmed.haikal.myplanner.View.Fragments.TaskListFragment;
+import ahmed.haikal.myplanner.View.Fragments.TodayViewFragment;
 
 public class Task_Touch_Listener extends ItemTouchHelper.Callback {
 
     private final TaskListAdapter taskListAdapter;
+    private final TodayViewAdapter todayViewAdapter;
     private final Context context;
 
     //Constructor
-    public Task_Touch_Listener(TaskListAdapter taskListAdapter, Context context){
+    public Task_Touch_Listener(TaskListAdapter taskListAdapter, TodayViewAdapter todayViewAdapter, Context context){
         this.taskListAdapter = taskListAdapter;
+        this.todayViewAdapter = todayViewAdapter;
         this.context = context;
     }
 
@@ -50,7 +53,10 @@ public class Task_Touch_Listener extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-        taskListAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        if(taskListAdapter != null)
+            taskListAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        else
+            todayViewAdapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
 
@@ -64,14 +70,25 @@ public class Task_Touch_Listener extends ItemTouchHelper.Callback {
             builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    taskListAdapter.removeTask(position);
-                    taskListAdapter.notifyItemRemoved(position);
+                    if(taskListAdapter != null){
+                        taskListAdapter.removeTask(position);
+                        taskListAdapter.notifyItemRemoved(position);
+                        TaskListFragment.deleteTask(position);
+                    }
+                    else {
+                        todayViewAdapter.removeTask(position);
+                        todayViewAdapter.notifyItemRemoved(position);
+                        TodayViewFragment.deleteTask(position);
+                    }
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    taskListAdapter.notifyItemChanged(position);
+                    if(taskListAdapter != null)
+                        taskListAdapter.notifyItemChanged(position);
+                    else
+                        todayViewAdapter.notifyItemChanged(position);
                 }
             });
             AlertDialog dialog = builder.create();

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="color_button" type="id"></item>
-    <item name="app_toolbar" type="id"></item>
-    <item name="app_main_toolbar" type="id"></item>
+    <item name="color_button" type="id" />
+    <item name="app_toolbar" type="id" />
+    <item name="app_main_toolbar" type="id" />
+    <item name="startTaskListPage" type="id" />
+    <item name="no_tasks_today_text" type="id" />
+    <item name="app_greeting" type="id" />
+    <item name="today_view_recyclerview" type="id"/>
 </resources>

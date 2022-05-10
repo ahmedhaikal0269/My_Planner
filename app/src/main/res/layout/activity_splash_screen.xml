@@ -5,7 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.SplashScreenActivity">
+    tools:context=".View.Activities.SplashScreenActivity">
 
     <ImageView
         android:id="@+id/app_logo_image"
@@ -13,4 +13,15 @@
         android:layout_height="wrap_content"
         android:src="@drawable/full_logo_removebg"
         android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_logo_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="serif"
+        android:text="Your Guide to Success"
+        android:textSize="25sp"
+        android:textStyle="bold|italic" />
 </RelativeLayout>

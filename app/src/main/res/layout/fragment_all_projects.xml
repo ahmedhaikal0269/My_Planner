@@ -4,33 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.ProjectsActivity">
+    >
+
+    <TextView
+        android:id="@+id/projects_page_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_grey"
+        android:gravity="center"
+        android:text="Hey, User!"
+        android:textSize="25dp"
+        android:padding="10dp"
+        tools:ignore="HardcodedText, contentDescription" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/newProjectButton">
-
-        <include
-            layout="@layout/main_toolbar"
-            android:id="@+id/app_main_toolbar"/>
-
-        <TextView
-            android:id="@+id/projects_page_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/app_main_toolbar"
-            android:background="@color/light_grey"
-            android:gravity="center"
-            android:text="Hey, User!"
-            android:textSize="25dp"
-            tools:ignore="HardcodedText, contentDescription" />
+        android:layout_above="@id/newProjectButton"
+        android:layout_below="@id/projects_page_header"
+        >
 
         <TextView
             android:id="@+id/projects_page_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/projects_page_header"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:text="Projects"

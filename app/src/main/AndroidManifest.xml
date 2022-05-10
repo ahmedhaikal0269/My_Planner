@@ -12,25 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".View.ProjectTasksActivity"
+            android:name=".View.Activities.HomeScreenActivity"
             android:exported="false" />
-        <activity
-            android:name=".View.GroupWorkActivity"
-            android:exported="false" />
-        <activity
-            android:name=".View.TaskListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".View.ProjectsActivity"
-            android:exported="true" />
-        <activity
-            android:name=".View.Main_Screen.MainScreenActivity"
-            android:exported="true" />
         <activity
             android:name=".View.Sign_In_Or_Up.Sign_In_Up_Activity"
             android:exported="true" />
         <activity
-            android:name=".View.SplashScreenActivity"
+            android:name=".View.Activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

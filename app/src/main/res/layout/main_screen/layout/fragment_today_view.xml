@@ -3,22 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.Main_Screen.TodayViewFragment">
+    tools:context=".View.Fragments.TodayViewFragment">
 
     <TextView
+        android:id="@+id/app_greeting"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:id="@+id/dropdown_menu"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Hey, User!"
+        android:textSize="40dp"
         tools:ignore="HardcodedText, contentDescription" />
 
     <TextView
+        android:id="@+id/Today_Page_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Today_Page_Title"
-        android:layout_below="@id/dropdown_menu"
+        android:layout_below="@id/app_greeting"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
         android:text="Today"
@@ -26,8 +30,7 @@
         tools:ignore="HardcodedText" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/all_Lists_recyclerview"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:id="@+id/today_view_recyclerview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/Today_Page_Title"
@@ -38,14 +41,14 @@
         android:nestedScrollingEnabled="true" />
 
     <TextView
+        android:id="@+id/no_tasks_today_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/not_tasks_today_text"
-        android:text="You have no Tasks today!"
         android:layout_centerInParent="true"
-        android:textSize="20dp"
+        android:text="You have no Tasks today!"
         android:textColor="@color/black"
-        android:visibility="invisible"/>
+        android:textSize="20dp"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>

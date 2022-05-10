@@ -1,4 +1,4 @@
-package ahmed.haikal.myplanner.View;
+package ahmed.haikal.myplanner.View.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

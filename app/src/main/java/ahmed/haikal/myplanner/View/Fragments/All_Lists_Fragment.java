@@ -1,8 +1,8 @@
-package ahmed.haikal.myplanner.View.Main_Screen;
+package ahmed.haikal.myplanner.View.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,15 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter;
+import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
+import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.Controller.Listeners.ItemClickListener;
 import ahmed.haikal.myplanner.Model.CreateNewList;
 import ahmed.haikal.myplanner.Model.ListCard;
 import ahmed.haikal.myplanner.Controller.Listeners.List_Touch_Listener;
 import ahmed.haikal.myplanner.R;
-import ahmed.haikal.myplanner.View.TaskListActivity;
+import ahmed.haikal.myplanner.View.Activities.HomeScreenActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,11 +34,12 @@ import ahmed.haikal.myplanner.View.TaskListActivity;
  */
 public class All_Lists_Fragment extends Fragment {
 
-    private RecyclerView all_lists_recyclerview;
+    private static RecyclerView all_lists_recyclerview;
     private FloatingActionButton addNewList;
     private static All_Lists_Adapter all_lists_adapter;
     private static List<ListCard> all_listCards;
-
+    private static List<Integer> all_listIDs;
+    private static int listID;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -69,6 +75,18 @@ public class All_Lists_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        all_listCards = new ArrayList<>();
+        all_listIDs = new ArrayList<>();
+        ArrayList<String> fields = new ArrayList<>();
+        fields.add("UserID");
+        ArrayList<String> values = new ArrayList<>();
+        values.add(String.valueOf(HomeScreenActivity.getActingUserID()));
+
+        DatabaseTask getLists = new DatabaseTask.Retrieve(DatabaseController.getInstance(),
+                "LISTS", fields, values, getContext());
+        getLists.execute();
+
+
     }
 
     @Override
@@ -85,12 +103,11 @@ public class All_Lists_Fragment extends Fragment {
         all_lists_recyclerview = view.findViewById(R.id.all_Lists_recyclerview);
         addNewList = view.findViewById(R.id.newListButton);
 
-        //List of all the lists that will be appear on the page
-        all_listCards = new ArrayList<>();
+        //List of all the lists that will appear on the page
 
-
+        System.out.println("There are " + all_listCards.size() + " lists .");
         //create adapter and attach recyclerview to it
-        all_lists_adapter = new All_Lists_Adapter(all_listCards, this.getActivity());
+        all_lists_adapter = new All_Lists_Adapter(all_listCards);
         all_lists_recyclerview.setAdapter(all_lists_adapter);
         all_lists_recyclerview.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
 
@@ -102,13 +119,25 @@ public class All_Lists_Fragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
 
-                All_Lists_Adapter.List_View_Holder holder = new All_Lists_Adapter.List_View_Holder(view);
+                //All_Lists_Adapter.List_View_Holder holder = new All_Lists_Adapter.List_View_Holder(view);
 
-                //open the list
-                Intent intent = new Intent(getContext(), TaskListActivity.class);
-                //String listName = all_listCards.get(position).getNewListName();
-                //intent.putExtra("ListTitle", listName);
-                startActivity(intent);
+                String listName = all_listCards.get(position).getNewListName();
+                int bgColor = all_listCards.get(position).getCardBackground();
+                listID = all_listIDs.get(position);
+                //Bundle bundle = new Bundle();
+                //bundle.putString("title", listName);
+                System.out.println("list name: " + listName);
+                System.out.println("list ID: " + listID);
+                System.out.println("list Color: " + bgColor);
+
+                //getActivity().getSupportFragmentManager().setFragmentResult("title", bundle);
+                //getActivity().getSupportFragmentManager().beginTransaction()
+                //        .replace(R.id.fragment_container, new TaskListFragment()).commit();
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container,
+                                TaskListFragment.newInstance(listName, getListID(), HomeScreenActivity.getActingUserID(), bgColor));
+                transaction.commit();
                 //getActivity().overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
 
@@ -137,14 +166,33 @@ public class All_Lists_Fragment extends Fragment {
         addNewList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ListCard list = new ListCard("First List", 0, 0, R.color.black);
-                //all_lists_adapter.insert(list);
 
                 CreateNewList.newInstance().show(getActivity().getSupportFragmentManager(), "");
             }
         });
     }
 
+    public static void setListID(int id){
+        listID = id;
+    }
+
+    public static int getListID(){
+        return listID;
+    }
+
+    public static boolean loadLists(ResultSet listCard) throws SQLException {
+        ListCard list = new ListCard(listCard.getString("ListTitle"), listCard.getInt("NumberOfTasks"),
+                listCard.getInt("BackgroundColor"));
+        all_listCards.add(list);
+        all_listIDs.add(listCard.getInt("ListID"));
+        System.out.println("the list has been added and the size now is: " + all_listCards.size());
+        return true;
+    }
+
+    public static void refreshPage(){
+        all_lists_adapter = new All_Lists_Adapter(all_listCards);
+        all_lists_recyclerview.setAdapter(all_lists_adapter);
+    }
     //reference to the adapter
     public static All_Lists_Adapter getAll_lists_adapter() {
         return all_lists_adapter;

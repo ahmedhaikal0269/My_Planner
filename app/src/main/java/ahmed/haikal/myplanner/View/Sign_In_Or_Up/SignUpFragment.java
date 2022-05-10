@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
@@ -30,9 +34,9 @@ import ahmed.haikal.myplanner.R;
  */
 public class SignUpFragment extends Fragment {
 
-    private EditText firstName, lastName, email, username, password, retypePassword;
+    private static EditText firstName, lastName, email, username, password, retypePassword;
     private Button signup;
-    private TextView inputErrorMsg;
+    private static TextView inputErrorMsg;
     private DatabaseController databaseController;
 
     //private static boolean usernameExists = false;
@@ -105,6 +109,24 @@ public class SignUpFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                username.setBackground(getActivity().getDrawable(R.drawable.input_field_design));
+                inputErrorMsg.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +188,6 @@ public class SignUpFragment extends Fragment {
     public void showErrorMessage(ArrayList<EditText> errorFields, String errorMessage){
         for(int i = 0; i < errorFields.size(); i++)
             errorFields.get(i).setBackground(getActivity().getDrawable(R.drawable.error_input_field_design));
-
         inputErrorMsg.setText(errorMessage);
     }
 
@@ -184,7 +205,8 @@ public class SignUpFragment extends Fragment {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(context, "Username Already Exists, choose another one", Toast.LENGTH_LONG).show();
+                username.setBackground(context.getDrawable(R.drawable.error_input_field_design));
+                inputErrorMsg.setText("Username Already Exists, choose another one");
             }
         });
     }

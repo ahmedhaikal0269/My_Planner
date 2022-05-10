@@ -2,15 +2,15 @@ package ahmed.haikal.myplanner.Model;
 
 public class TaskCard {
 
-    private int id, status;
+    private int status, checkBoxColor;
     private String task, date, reminder;
 
-    public TaskCard(int id, int status, String task, String date, String reminder) {
-        this.id = id;
+    public TaskCard(int status, String task, String date, String reminder, int checkBoxColor) {
         this.status = status;
         this.task = task;
         this.date = date;
         this.reminder = reminder;
+        this.checkBoxColor = checkBoxColor;
     }
 
     public String getDate() {
@@ -19,14 +19,6 @@ public class TaskCard {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getStatus() {
@@ -53,4 +45,11 @@ public class TaskCard {
         this.reminder = reminder;
     }
 
+    public int getCheckBoxColor() {
+        return checkBoxColor;
+    }
+
+    public void setCheckBoxColor(int checkBoxColor) {
+        this.checkBoxColor = checkBoxColor;
+    }
 }

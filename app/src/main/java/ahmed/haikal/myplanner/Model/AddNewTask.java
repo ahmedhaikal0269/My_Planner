@@ -11,13 +11,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.fragment.app.DialogFragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-
 import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter;
+import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
+import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.R;
-import ahmed.haikal.myplanner.View.TaskListActivity;
+import ahmed.haikal.myplanner.View.Activities.HomeScreenActivity;
+import ahmed.haikal.myplanner.View.Fragments.TaskListFragment;
 
 public class AddNewTask extends DialogFragment {
 
@@ -26,7 +30,6 @@ public class AddNewTask extends DialogFragment {
     Button saveTask, cancel;
     static String list_title;
     String dialogTitle = "Add New Task";
-    TaskListActivity activity = TaskListActivity.getActivity();
     TaskListAdapter taskListAdapter;
 
     /**
@@ -64,7 +67,7 @@ public class AddNewTask extends DialogFragment {
         saveTask = view.findViewById(R.id.saveTask);
         cancel = view.findViewById(R.id.cancel);
 
-        taskListAdapter = activity.getTaskList_adapter();
+        taskListAdapter = TaskListFragment.getTaskList_adapter();
 
         //=============== Add functionality to the components of the add new task page ===============//
 
@@ -109,19 +112,50 @@ public class AddNewTask extends DialogFragment {
             }
         });
 
+        taskReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // time picker
+            }
+        });
 
         //save/cancel button functionality
         saveTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int checkBoxColor = TaskListFragment.getCheckBoxColor();
+                System.out.println("color from add new task: " + checkBoxColor);
                 String taskInput = taskInputText.getText().toString();
                 // get Date from User
-                TaskCard task = new TaskCard(0,0, taskInput,
-                        taskDate.getText().toString(), taskReminder.getText().toString());
+                TaskCard task = new TaskCard(0, taskInput,
+                        taskDate.getText().toString(), taskReminder.getText().toString(), checkBoxColor);
                 //add to recyclerview
                 taskListAdapter.insertTask(task);
+
                 System.out.println("I'm adding a task");
+
                 //add to database
+                ArrayList<String> fields = new ArrayList<>();
+                fields.add("TaskName");
+                fields.add("Status");
+                fields.add("DeadLine");
+                fields.add("Reminder");
+                fields.add("ListID");
+                fields.add("UserID");
+                fields.add("CheckBoxColor");
+
+                ArrayList<String> values = new ArrayList<>();
+                values.add("'" + taskInput + "'");
+                values.add(String.valueOf(0));
+                values.add("'" + taskDate.getText().toString() + "'");
+                values.add("'" + taskReminder.getText().toString()+ "'");
+                values.add(String.valueOf(TaskListFragment.getListID()));
+                values.add(String.valueOf(HomeScreenActivity.getActingUserID()));
+                values.add(String.valueOf(TaskListFragment.getCheckBoxColor()));
+
+                DatabaseTask addTask = new DatabaseTask.Insert(DatabaseController.getInstance(),
+                        "TASKS", fields, values, getContext());
+                addTask.execute();
                 dismiss();
             }
         });
@@ -132,7 +166,6 @@ public class AddNewTask extends DialogFragment {
                 dismissAllowingStateLoss();
             }
         });
-
     }
 
     // this method expands the size of the dialog fragment to show all the content of the

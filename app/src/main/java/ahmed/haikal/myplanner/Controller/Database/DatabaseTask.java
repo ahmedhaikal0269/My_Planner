@@ -1,21 +1,17 @@
 package ahmed.haikal.myplanner.Controller.Database;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.mysql.cj.protocol.Resultset;
-
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import ahmed.haikal.myplanner.View.Main_Screen.MainScreenActivity;
+import ahmed.haikal.myplanner.View.Fragments.All_Lists_Fragment;
+import ahmed.haikal.myplanner.View.Fragments.TodayViewFragment;
 import ahmed.haikal.myplanner.View.Sign_In_Or_Up.LogInFragment;
 import ahmed.haikal.myplanner.View.Sign_In_Or_Up.SignUpFragment;
+import ahmed.haikal.myplanner.View.Fragments.TaskListFragment;
 
 public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
 
@@ -59,7 +55,7 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
 
     public static class Login extends DatabaseTask{
 
-        private String username, password;
+        private String username, password, activeUserName;
         private boolean validated = false;
         private int userID;
         private Context context;
@@ -86,6 +82,7 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
                     System.out.println(" password: " + correctPassword);
                     if(password.equals(correctPassword)) {
                         userID = resultSet.getInt("UserID");
+                        activeUserName = resultSet.getString("FirstName");
                         success = true;
                     }
                     else
@@ -102,7 +99,8 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
             if(validate()) {
-                LogInFragment.loginSuccess(context, username, userID);
+                LogInFragment.loginSuccess(context, username, userID, activeUserName);
+                System.out.println("log in success is called now");
                 validated = true;
             }
             return null;
@@ -243,14 +241,16 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
 
     public static class Retrieve extends DatabaseTask {
 
-        private String tableName, retrievalField, retrievalValue;
+        private String tableName;
+        private ArrayList<String> retrievalFields, retrievalValues;
+        private static ResultSet resultSet;
 
         public Retrieve(DatabaseController databaseController, String tableName,
-                        String retrievalField, String retrievalValue, Context context) {
+                        ArrayList<String> retrievalField, ArrayList<String> retrievalValue, Context context) {
             super(databaseController, "", context);
             this.tableName = tableName;
-            this.retrievalField = retrievalField;
-            this.retrievalValue = retrievalValue;
+            this.retrievalFields = retrievalField;
+            this.retrievalValues = retrievalValue;
         }
 
         public boolean valueExists(String tableName, String retrievalField, String retrievalValue){
@@ -265,21 +265,158 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
             return true;
         }
 
+        public String retrieveRecords (){
+            String retrievalQuery = "SELECT * FROM " + tableName + " WHERE ";
+
+            System.out.println("Table name: " + tableName);
+            System.out.println(retrievalFields.size());
+            System.out.println(retrievalValues.size());
+            if(!retrievalFields.isEmpty() && retrievalFields.size() == retrievalValues.size()){
+                StringBuilder conditions = new StringBuilder();
+                for(int i = 0; i < retrievalFields.size(); i++){
+                    String field = retrievalFields.get(i);
+                    System.out.println("Field no. " + i + ":" + field);
+                    String value = retrievalValues.get(i);
+                    System.out.println("Value no. " + i + ":" + value);
+                    conditions.append(field).append(" = ").append(value);
+                }
+                retrievalQuery += conditions;
+            }
+            System.out.println(retrievalQuery);
+            return retrievalQuery;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
+            resultSet = databaseController.executeResultsQuery(retrieveRecords());
+            boolean loaded = false;
+            if (resultSet != null){
+                if(tableName.equals("LISTS")) {
+                    try {
+                        while (resultSet.next()) {
+                            loaded = All_Lists_Fragment.loadLists(resultSet);
+                            if (loaded)
+                                System.out.println("lists loaded");
+                            else
+                                System.out.println("lists not loaded");
+                        }
+                        All_Lists_Fragment.refreshPage();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
 
+                else if(tableName.equals("TASKS") && retrievalFields.get(0).equals("UserID")){
+                    try {
+                        while (resultSet.next()) {
+                            loaded = TaskListFragment.loadTasks(resultSet);
+                            if (loaded)
+                                System.out.println("tasks loaded");
+                            else
+                                System.out.println("tasks not loaded");
+                        }
+                        TaskListFragment.refreshTaskListPage();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if(tableName.equals("TASKS") && retrievalFields.get(0).equals("DeadLine")){
+                    try {
+                        while (resultSet.next()) {
+                            loaded = TodayViewFragment.loadTasks(resultSet);
+                            if (loaded)
+                                System.out.println("tasks loaded");
+                            else
+                                System.out.println("tasks not loaded");
+                        }
+                        TodayViewFragment.refreshTodayViewPage();
+                    } catch (Exception throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+
+        }
+    }
+
+    public static class UpdateRecords extends DatabaseTask {
+
+        private String tableName, retrievalField, retrievalValue;
+        private ArrayList<String> updateFields;
+        private ArrayList<String> updateValues;
+
+        public UpdateRecords(DatabaseController databaseController, String query, String tableName,
+                             String retrievalField, String retrievalValue, ArrayList<String> updateFields,
+                             ArrayList<String> updateValues, Context context) {
+            super(databaseController, query, context);
+
+            this.tableName = tableName;
+            this.retrievalField = retrievalField;
+            this.retrievalValue = retrievalValue;
+            this.updateFields = updateFields;
+            this.updateValues = updateValues;
+
+        }
+
+        public String update() {
+            String updateQuery = "Update " + tableName + " SET ";
+
+            if(!updateFields.isEmpty() && updateFields.size() == updateValues.size()){
+                StringBuilder conditions = new StringBuilder();
+                for(int i = 0; i < updateFields.size(); i++){
+                    String field = updateFields.get(i);
+                    System.out.println("Field no. " + i + ":" + field);
+                    String value = updateValues.get(i);
+                    System.out.println("Value no. " + i + ":" + value);
+                    conditions.append(field).append(" = ").append(value);
+                    if(i != updateFields.size() - 1)
+                        conditions.append(", ");
+                }
+                updateQuery += conditions + " WHERE " + retrievalField + " = " + retrievalValue;
+            }
+            System.out.println(updateQuery);
+            return updateQuery;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            databaseController.executeUpdateQuery(update());
             return null;
         }
     }
 
     public static class Delete extends DatabaseTask {
 
-        public Delete(DatabaseController databaseController, String query, Context context) {
+        private String tableName;
+        private String retrievalField;
+        private String retrievalValue;
+
+        public Delete(DatabaseController databaseController, String query, String tableName,
+                      String retrievalField, String retrievalValue, Context context) {
             super(databaseController, query, context);
+
+            this.tableName = tableName;
+            this.retrievalField = retrievalField;
+            this.retrievalValue = retrievalValue;
         }
 
+        public String deleteRecord() {
+            String deleteQuery = "Delete FROM " + tableName + " WHERE " + retrievalField + " = " + retrievalValue;
+            return deleteQuery;
+        }
         @Override
         protected Void doInBackground(Void... voids) {
+            databaseController.executeUpdateQuery(deleteRecord());
             return null;
         }
     }

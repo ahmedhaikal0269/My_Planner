@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +20,8 @@ import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.R;
-import ahmed.haikal.myplanner.View.Main_Screen.All_Lists_Fragment;
+import ahmed.haikal.myplanner.View.Activities.HomeScreenActivity;
+import ahmed.haikal.myplanner.View.Fragments.All_Lists_Fragment;
 import top.defaults.colorpicker.ColorPickerPopup;
 
 public class CreateNewList extends DialogFragment {
@@ -118,17 +118,25 @@ public class CreateNewList extends DialogFragment {
         create.setOnClickListener(view1 -> {
             //all lists will have a grey background until the choose color functionality is created
             //add list in recyclerview
-            ListCard newList = new ListCard(listTitleInputText.getText().toString(), 0, 0, selected_background_color);
+            ListCard newList = new ListCard(listTitleInputText.getText().toString(), 0, selected_background_color);
             all_lists_adapter.insert(newList);
 
             //add list in database
             ArrayList<String> inputFields = new ArrayList<>();
-            inputFields.add("");
+            inputFields.add("ListTitle");
+            inputFields.add("NumberOfTasks");
+            inputFields.add("BackgroundColor");
+            inputFields.add("UserID");
 
             ArrayList<String> inputValues = new ArrayList<>();
+            inputValues.add("'" + listTitleInputText.getText().toString() + "'");
+            inputValues.add(String.valueOf(0));
+            inputValues.add(String.valueOf(selected_background_color));
+            inputValues.add(String.valueOf(HomeScreenActivity.getActingUserID()));
+
             DatabaseTask createNewList = new DatabaseTask.Insert(DatabaseController.getInstance(),
                     "LISTS", inputFields, inputValues, getContext());
-            //createNewList.execute();
+            createNewList.execute();
             System.out.println("I'm adding a list");
             dismiss();
         });

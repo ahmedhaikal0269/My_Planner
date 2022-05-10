@@ -22,7 +22,7 @@ import android.widget.TextView;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.R;
-import ahmed.haikal.myplanner.View.Main_Screen.MainScreenActivity;
+import ahmed.haikal.myplanner.View.Activities.HomeScreenActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -154,12 +154,15 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
 
     }
 
-    public static void loginSuccess(Context context, String username, int userID) {
-        Intent intent = new Intent(context, MainScreenActivity.class);
+    public static void loginSuccess(Context context, String username, int userID, String activeUserName) {
+        Intent intent = new Intent(context, HomeScreenActivity.class);
         intent.putExtra("userID", userID);
         intent.putExtra("username", username);
+        intent.putExtra("activeUserName", activeUserName);
         context.startActivity(intent);
         System.out.println("user id: " + userID);
+        System.out.println("username: " + username);
+        System.out.println("user first name: " + activeUserName);
     }
     public static void loginFailed(){
         wrongCredentials.setText("wrong username or password");

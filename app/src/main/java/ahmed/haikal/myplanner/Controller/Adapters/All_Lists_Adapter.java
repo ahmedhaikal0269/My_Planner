@@ -20,7 +20,7 @@ public class All_Lists_Adapter extends RecyclerView.Adapter<List_View_Holder> {
 
     List<ListCard> all_lists;
 
-    public All_Lists_Adapter(List<ListCard> all_lists, Context context){
+    public All_Lists_Adapter(List<ListCard> all_lists){
         this.all_lists = all_lists;
     }
 
