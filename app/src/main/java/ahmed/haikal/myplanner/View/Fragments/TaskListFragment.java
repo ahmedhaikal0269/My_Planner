@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,6 +20,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
+import ahmed.haikal.myplanner.ClientServerCalls.TaskApi;
 import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
@@ -25,6 +30,9 @@ import ahmed.haikal.myplanner.Controller.Listeners.Task_Touch_Listener;
 import ahmed.haikal.myplanner.Model.AddNewTask;
 import ahmed.haikal.myplanner.Model.TaskCard;
 import ahmed.haikal.myplanner.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TaskListFragment extends Fragment {
     private TextView list_title;
@@ -62,6 +70,7 @@ public class TaskListFragment extends Fragment {
         userID = getArguments().getInt("userID");
         checkBoxColor = getArguments().getInt("checkBoxColor");
 
+        /*
         //set date in array lists to create the database task (retrieve)
         ArrayList<String> fields = new ArrayList<>();
         fields.add("UserID");
@@ -74,6 +83,28 @@ public class TaskListFragment extends Fragment {
         DatabaseTask getTasks = new DatabaseTask.Retrieve(DatabaseController.getInstance(), "TASKS",
                 fields, values, getContext());
         getTasks.execute();
+
+         */
+
+        // ================ TRY USING THE SPRING SERVER ================ //
+
+        RetrofitService retrofitService = new RetrofitService();
+        TaskApi taskApi = retrofitService.getRetrofit().create(TaskApi.class);
+        taskApi.getTasksByListID(listID)
+                .enqueue(new Callback<List<TaskCard>>() {
+            @Override
+            public void onResponse(Call<List<TaskCard>> call, Response<List<TaskCard>> response) {
+                if(response.body() != null)
+                    task_list = response.body();
+                else
+                    Toast.makeText(null, "No Tasks in this List", Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onFailure(Call<List<TaskCard>> call, Throwable t) {
+
+            }
+        });
     }
 
     @Nullable
@@ -129,7 +160,7 @@ public class TaskListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String title = list_title.getText().toString();
-                AddNewTask.newInstance(title).show(getFragmentManager(), title);
+                AddNewTask.newInstance(title);
             }
         });
 
@@ -138,7 +169,7 @@ public class TaskListFragment extends Fragment {
             public void onClick(View view) {
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(
                 //        R.id.fragment_container, new All_Lists_Fragment()).commit();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(
+                getActivity().getFragmentManager().beginTransaction().replace(
                         R.id.fragment_container, new All_Lists_Fragment()).commit();
             }
         });
@@ -170,6 +201,9 @@ public class TaskListFragment extends Fragment {
         update.execute();
     }
 
+    public static void updateTaskID(TaskCard task){
+
+    }
     public static boolean loadTasks(ResultSet tasks) throws SQLException {
         TaskCard task = new TaskCard(tasks.getInt("Status"), tasks.getString("TaskName"),
                 tasks.getString("DeadLine"), tasks.getString("Reminder"), tasks.getInt("CheckBoxColor"));

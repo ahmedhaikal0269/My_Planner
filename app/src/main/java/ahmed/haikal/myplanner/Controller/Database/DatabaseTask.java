@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import ahmed.haikal.myplanner.View.Fragments.All_Lists_Fragment;
+import ahmed.haikal.myplanner.View.Fragments.CalenderViewFragment;
 import ahmed.haikal.myplanner.View.Fragments.TodayViewFragment;
 import ahmed.haikal.myplanner.View.Sign_In_Or_Up.LogInFragment;
 import ahmed.haikal.myplanner.View.Sign_In_Or_Up.SignUpFragment;
@@ -109,7 +110,7 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPostExecute(Void unused) {
             if(!validated)
-                LogInFragment.loginFailed();
+                LogInFragment.loginFailed("postExecute, log in failed");
         }
     }
 
@@ -305,7 +306,7 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
                             else
                                 System.out.println("lists not loaded");
                         }
-                        All_Lists_Fragment.refreshPage();
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -320,7 +321,6 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
                             else
                                 System.out.println("tasks not loaded");
                         }
-                        TaskListFragment.refreshTaskListPage();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -334,7 +334,6 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
                             else
                                 System.out.println("tasks not loaded");
                         }
-                        TodayViewFragment.refreshTodayViewPage();
                     } catch (Exception throwables) {
                         throwables.printStackTrace();
                     }
@@ -345,7 +344,12 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPostExecute(Void unused) {
-
+            if(tableName.equals("LISTS"))
+                All_Lists_Fragment.refreshPage();
+            else if (tableName.equals("TASKS") && retrievalFields.get(0).equals("UserID"))
+                TaskListFragment.refreshTaskListPage();
+            else if(tableName.equals("TASKS") && retrievalFields.get(0).equals("DeadLine"))
+                TodayViewFragment.refreshTodayViewPage();
         }
     }
 
@@ -392,6 +396,35 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
         protected Void doInBackground(Void... voids) {
             databaseController.executeUpdateQuery(update());
             return null;
+        }
+    }
+
+    public static class RetrieveAll extends DatabaseTask{
+        private static ResultSet resultSet;
+        public RetrieveAll(DatabaseController databaseController, String query, Context context) {
+            super(databaseController, query, context);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            resultSet = databaseController.executeResultsQuery(query);
+            if(resultSet != null){
+                try {
+                    while (resultSet.next()) {
+                        CalenderViewFragment.loadEvents(resultSet);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+
         }
     }
 

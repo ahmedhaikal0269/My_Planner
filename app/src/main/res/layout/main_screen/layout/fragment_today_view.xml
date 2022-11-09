@@ -14,7 +14,6 @@
         android:layout_marginBottom="10dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Hey, User!"
         android:textSize="40dp"
         tools:ignore="HardcodedText, contentDescription" />
 

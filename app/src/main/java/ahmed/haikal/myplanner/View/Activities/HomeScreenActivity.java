@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Fragments.All_Lists_Fragment;
+import ahmed.haikal.myplanner.View.Fragments.CalenderViewFragment;
 import ahmed.haikal.myplanner.View.Fragments.TodayViewFragment;
 import ahmed.haikal.myplanner.View.Sign_In_Or_Up.Sign_In_Up_Activity;
 
@@ -69,6 +70,8 @@ public class HomeScreenActivity extends AppCompatActivity implements NavigationV
                         new All_Lists_Fragment()).commit();
                 break;
             case R.id.calenderView:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new CalenderViewFragment()).commit();
                 break;
             case R.id.signOut:
                 startActivity(new Intent(this, Sign_In_Up_Activity.class));

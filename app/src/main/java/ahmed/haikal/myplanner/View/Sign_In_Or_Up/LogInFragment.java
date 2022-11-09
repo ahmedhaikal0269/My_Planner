@@ -21,8 +21,14 @@ import android.widget.TextView;
 
 import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
+import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
+import ahmed.haikal.myplanner.ClientServerCalls.UserApi;
+import ahmed.haikal.myplanner.Model.User;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Activities.HomeScreenActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -145,8 +151,35 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
         String password = passwordInput.getText().toString();
 
         //check database for credentials
-        DatabaseTask loginValidation = new DatabaseTask.Login(databaseController, username, password, getContext());
-        loginValidation.execute();
+        //DatabaseTask loginValidation = new DatabaseTask.Login(databaseController, username, password, getContext());
+        //loginValidation.execute();
+
+        //establish connection to the Spring Boot server
+        RetrofitService retrofitService = new RetrofitService();
+        UserApi userApi = retrofitService.getRetrofit().create(UserApi.class);
+        userApi.checkUserExists(username)
+                .enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if(response.body() != null){
+                            loginFailed("Hooray you got here");
+                            if(response.body().getUserName().equals(username)
+                            && response.body().getPassword().equals(password))
+                                //loginSuccess(getContext(), response.body().getUserName(),
+                                //        response.body().getUserId(), response.body().getUserName());
+                                loginFailed("wrong credentials buddy");
+                        }
+                        else
+                            loginFailed("wrong username or password");
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        loginFailed("failure of REST call");
+                    }
+                });
+
+        //create a call to the server to validate credentials
 
         //minimize keyboard
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -164,7 +197,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
         System.out.println("username: " + username);
         System.out.println("user first name: " + activeUserName);
     }
-    public static void loginFailed(){
-        wrongCredentials.setText("wrong username or password");
+    public static void loginFailed(String text){
+        wrongCredentials.setText(text);
     }
 }

@@ -20,12 +20,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
+import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
+import ahmed.haikal.myplanner.ClientServerCalls.UserApi;
+import ahmed.haikal.myplanner.Model.User;
 import ahmed.haikal.myplanner.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -127,9 +131,12 @@ public class SignUpFragment extends Fragment {
             }
         });
 
+        RetrofitService retrofitService = new RetrofitService();
+        UserApi userApi = retrofitService.getRetrofit().create(UserApi.class);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+/*
                 //check if username exists in database
                 String f_name = "'" + firstName.getText().toString() + "'";
                 String l_name = "'" + lastName.getText().toString() + "'";
@@ -137,6 +144,8 @@ public class SignUpFragment extends Fragment {
                 String u_name = "'" + username.getText().toString() + "'";
                 String p_word = "'" + password.getText().toString() + "'";
                 String re_password = "'" + retypePassword.getText().toString() + "'";
+
+
                 //password and retype password fields should be equal
                 if(checkPasswordRetypeMatch(p_word, re_password)){
                     ArrayList<String> userFields = new ArrayList<>();
@@ -174,6 +183,54 @@ public class SignUpFragment extends Fragment {
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
+*/
+
+                // ================ TRY USING THE SPRING SERVER ================ //
+
+                String uName = username.getText().toString();
+                String eMail = email.getText().toString();
+                String fName = firstName.getText().toString();
+                String lName = lastName.getText().toString();
+                String pWord = password.getText().toString();
+                String pWord2 = retypePassword.getText().toString();
+
+                if(checkPasswordRetypeMatch(pWord, pWord2)){
+                    User user = new User();
+                    user.setUserName(uName);
+                    user.setFirstName(fName);
+                    user.setLastName(lName);
+                    user.setEmail(eMail);
+                    user.setPassword(pWord);
+
+                    userApi.addNewUser(user)
+                            .enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(Call<User> call, Response<User> response) {
+                                    //Toast.makeText(getContext(), "Account Created Successfully!", Toast.LENGTH_LONG).show();
+                                    if(response.body() != null)
+                                        signUpSuccess(getContext());
+                                    else{
+                                        signUpFailure(getContext());
+                                        System.out.println("didn't work out, bro");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<User> call, Throwable t) {
+                                    //Toast.makeText(getContext(), "Failed, please try again in a few seconds", Toast.LENGTH_LONG).show();
+                                    signUpFailure(getContext());
+                                }
+                            });
+                }
+                else{
+                    ArrayList<EditText> errorFields = new ArrayList<>();
+                    errorFields.add(password);
+                    errorFields.add(retypePassword);
+                    showErrorMessage(errorFields, "password much match in both fields");
+
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
 
             }
         });
@@ -184,7 +241,7 @@ public class SignUpFragment extends Fragment {
         return (pword1.equals(pword2));
     }
 
-    //this boolean is to change the border an input field to red and show an error message above sign up button
+    //this method changes the outline of an input field to red and show an error message above sign up button
     public void showErrorMessage(ArrayList<EditText> errorFields, String errorMessage){
         for(int i = 0; i < errorFields.size(); i++)
             errorFields.get(i).setBackground(getActivity().getDrawable(R.drawable.error_input_field_design));

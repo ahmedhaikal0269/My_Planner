@@ -72,12 +72,12 @@ public class Task_Touch_Listener extends ItemTouchHelper.Callback {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if(taskListAdapter != null){
                         taskListAdapter.removeTask(position);
-                        taskListAdapter.notifyItemRemoved(position);
+                        taskListAdapter.notifyItemChanged(position);
                         TaskListFragment.deleteTask(position);
                     }
                     else {
                         todayViewAdapter.removeTask(position);
-                        todayViewAdapter.notifyItemRemoved(position);
+                        //todayViewAdapter.notifyItemRemoved(position);
                         TodayViewFragment.deleteTask(position);
                     }
                 }

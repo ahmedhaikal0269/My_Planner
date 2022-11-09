@@ -16,13 +16,12 @@ import java.sql.Statement;
  */
 
 public class DatabaseController {
-
-
+    
     private final String connectionString;
     private final String dbUsername;
     private final String dbPassword;
     private static final DatabaseController databaseController = new DatabaseController(
-            "jdbc:jtds:sqlserver://192.168.0.16:1433;databaseName=MyPlanner",
+            "jdbc:jtds:sqlserver://10.0.2.2:1433;databaseName=MyPlanner",
             "sa", "mouserat");
 
     private Connection connection;

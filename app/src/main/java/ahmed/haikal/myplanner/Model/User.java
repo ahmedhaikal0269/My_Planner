@@ -2,13 +2,23 @@ package ahmed.haikal.myplanner.Model;
 
 public class User {
 
-    private String firstName, lastName, email, password;
+    private int userId;
+    private String userName, email, firstName, lastName, password;
 
-    public User(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getFirstName() {

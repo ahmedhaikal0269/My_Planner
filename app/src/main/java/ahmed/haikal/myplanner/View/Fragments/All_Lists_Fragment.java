@@ -2,6 +2,7 @@ package ahmed.haikal.myplanner.View.Fragments;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -68,9 +69,11 @@ public class All_Lists_Fragment extends Fragment {
         return fragment;
     }
 
+    
+    /*
     public All_Lists_Fragment() {
         // Required empty public constructor
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

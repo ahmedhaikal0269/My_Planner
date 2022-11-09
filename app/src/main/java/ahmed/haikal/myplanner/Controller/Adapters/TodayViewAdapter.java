@@ -11,14 +11,11 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.Calendar;
 import java.util.List;
-
 import ahmed.haikal.myplanner.Controller.Listeners.ItemTouchListener;
 import ahmed.haikal.myplanner.Model.TaskCard;
 import ahmed.haikal.myplanner.R;
@@ -26,10 +23,10 @@ import ahmed.haikal.myplanner.View.Fragments.TaskListFragment;
 import ahmed.haikal.myplanner.View.Fragments.TodayViewFragment;
 
 public class TodayViewAdapter extends RecyclerView.Adapter<TodayViewAdapter.Task_View_Holder> implements ItemTouchListener {
+
     private List<TaskCard> taskList;
     private final int taskCard_originalColor = Color.rgb(255,255,153);
     private final int taskCard_isDoneColor = Color.LTGRAY;
-
 
     public TodayViewAdapter (List<TaskCard> taskList) {
         this.taskList = taskList;

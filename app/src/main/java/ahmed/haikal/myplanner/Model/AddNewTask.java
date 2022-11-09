@@ -1,6 +1,7 @@
 package ahmed.haikal.myplanner.Model;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,17 +12,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
+import ahmed.haikal.myplanner.ClientServerCalls.TaskApi;
 import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Activities.HomeScreenActivity;
 import ahmed.haikal.myplanner.View.Fragments.TaskListFragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddNewTask extends DialogFragment {
 
@@ -115,7 +124,7 @@ public class AddNewTask extends DialogFragment {
         taskReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // time picker
+
             }
         });
 
@@ -127,6 +136,8 @@ public class AddNewTask extends DialogFragment {
                 System.out.println("color from add new task: " + checkBoxColor);
                 String taskInput = taskInputText.getText().toString();
                 // get Date from User
+                String task_date = taskDate.getText().toString();
+                String reminder = taskReminder.getText().toString();
                 TaskCard task = new TaskCard(0, taskInput,
                         taskDate.getText().toString(), taskReminder.getText().toString(), checkBoxColor);
                 //add to recyclerview
@@ -134,7 +145,29 @@ public class AddNewTask extends DialogFragment {
 
                 System.out.println("I'm adding a task");
 
-                //add to database
+                // ================ TRY USING THE SPRING SERVER ================ //
+
+                RetrofitService retrofitService = new RetrofitService();
+                TaskApi taskApi = retrofitService.getRetrofit().create(TaskApi.class);
+                taskApi.addNewTask(task)
+                        .enqueue(new Callback<TaskCard>() {
+                            @Override
+                            public void onResponse(Call<TaskCard> call, Response<TaskCard> response) {
+                                if(response.body() != null)
+                                    Toast.makeText(view.getContext(), "task added successfully", Toast.LENGTH_LONG);
+                                else{
+                                    Toast.makeText(view.getContext(), "something went wrong", Toast.LENGTH_LONG);
+                                    System.out.println("didn't work out, bro");
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<TaskCard> call, Throwable t) {
+                                Toast.makeText(view.getContext(), "couldn't add task, please try again later", Toast.LENGTH_LONG);
+                            }
+                        });
+
+                /*add to database
                 ArrayList<String> fields = new ArrayList<>();
                 fields.add("TaskName");
                 fields.add("Status");
@@ -156,6 +189,8 @@ public class AddNewTask extends DialogFragment {
                 DatabaseTask addTask = new DatabaseTask.Insert(DatabaseController.getInstance(),
                         "TASKS", fields, values, getContext());
                 addTask.execute();
+                */
+
                 dismiss();
             }
         });
@@ -167,6 +202,7 @@ public class AddNewTask extends DialogFragment {
             }
         });
     }
+
 
     // this method expands the size of the dialog fragment to show all the content of the
     // add new task box
