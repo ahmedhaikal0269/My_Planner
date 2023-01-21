@@ -169,7 +169,7 @@ public class TaskListFragment extends Fragment {
             public void onClick(View view) {
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(
                 //        R.id.fragment_container, new All_Lists_Fragment()).commit();
-                getActivity().getFragmentManager().beginTransaction().replace(
+                getActivity().getSupportFragmentManager().beginTransaction().replace(
                         R.id.fragment_container, new All_Lists_Fragment()).commit();
             }
         });
