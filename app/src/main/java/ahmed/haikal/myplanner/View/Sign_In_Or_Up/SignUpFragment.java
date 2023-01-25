@@ -21,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
 import ahmed.haikal.myplanner.ClientServerCalls.UserApi;
 import ahmed.haikal.myplanner.Model.User;
@@ -41,8 +39,6 @@ public class SignUpFragment extends Fragment {
     private static EditText firstName, lastName, email, username, password, retypePassword;
     private Button signup;
     private static TextView inputErrorMsg;
-    private DatabaseController databaseController;
-
     //private static boolean usernameExists = false;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -85,12 +81,12 @@ public class SignUpFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+/*
         databaseController = DatabaseController.getInstance();
 
         DatabaseTask databaseConnection = new DatabaseTask.Connect(databaseController);
         databaseConnection.execute();
-
+*/
     }
 
     @Override
@@ -253,6 +249,7 @@ public class SignUpFragment extends Fragment {
             @Override
             public void run() {
                 Toast.makeText(context, "New Account Created Successfully", Toast.LENGTH_LONG).show();
+                new Sign_In_Up_Activity().switchFragments(0);
             }
         });
 

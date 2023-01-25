@@ -18,9 +18,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
 import ahmed.haikal.myplanner.ClientServerCalls.UserApi;
 import ahmed.haikal.myplanner.Model.User;
@@ -40,8 +37,6 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
     private EditText usernameInput, passwordInput;
     private Button login;
     private static TextView wrongCredentials;
-
-    private DatabaseController databaseController;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,12 +77,12 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        //create connection with the database to validate login
+/*create connection with the database to validate login
         databaseController = DatabaseController.getInstance();
 
         DatabaseTask databaseConnection = new DatabaseTask.Connect(databaseController);
         databaseConnection.execute();
-
+*/
     }
 
     @Override
@@ -165,9 +160,9 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
                             loginFailed("Hooray you got here");
                             if(response.body().getUserName().equals(username)
                             && response.body().getPassword().equals(password))
-                                //loginSuccess(getContext(), response.body().getUserName(),
-                                //        response.body().getUserId(), response.body().getUserName());
-                                loginFailed("wrong credentials buddy");
+                                loginSuccess(getContext(), response.body().getUserName(),
+                                        response.body().getUserId(), response.body().getUserName());
+                                //loginFailed("wrong credentials buddy");
                         }
                         else
                             loginFailed("wrong username or password");

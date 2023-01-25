@@ -23,8 +23,6 @@ import java.util.Calendar;
 import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
 import ahmed.haikal.myplanner.ClientServerCalls.TaskApi;
 import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Activities.HomeScreenActivity;
 import ahmed.haikal.myplanner.View.Fragments.TaskListFragment;

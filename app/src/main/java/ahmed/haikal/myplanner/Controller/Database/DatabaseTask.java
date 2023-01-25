@@ -300,7 +300,7 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
                 if(tableName.equals("LISTS")) {
                     try {
                         while (resultSet.next()) {
-                            loaded = All_Lists_Fragment.loadLists(resultSet);
+                            //loaded = All_Lists_Fragment.loadLists(resultSet);
                             if (loaded)
                                 System.out.println("lists loaded");
                             else
@@ -434,7 +434,7 @@ public abstract class DatabaseTask extends AsyncTask<Void, Void, Void> {
         private String retrievalField;
         private String retrievalValue;
 
-        public Delete(DatabaseController databaseController, String query, String tableName,
+        public Delete (DatabaseController databaseController, String query, String tableName,
                       String retrievalField, String retrievalValue, Context context) {
             super(databaseController, query, context);
 

@@ -17,15 +17,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import ahmed.haikal.myplanner.ClientServerCalls.ListApi;
+import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
 import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.Controller.Listeners.ItemClickListener;
 import ahmed.haikal.myplanner.Model.CreateNewList;
 import ahmed.haikal.myplanner.Model.ListCard;
 import ahmed.haikal.myplanner.Controller.Listeners.List_Touch_Listener;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Activities.HomeScreenActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,11 +90,26 @@ public class All_Lists_Fragment extends Fragment {
         ArrayList<String> values = new ArrayList<>();
         values.add(String.valueOf(HomeScreenActivity.getActingUserID()));
 
+/*
         DatabaseTask getLists = new DatabaseTask.Retrieve(DatabaseController.getInstance(),
                 "LISTS", fields, values, getContext());
         getLists.execute();
+*/
 
+        RetrofitService retrofitService = new RetrofitService();
+        ListApi listApi = retrofitService.getRetrofit().create(ListApi.class);
+                listApi.getListsByUserID(HomeScreenActivity.getActingUserID())
+                .enqueue(new Callback<List<ListCard>>() {
+                    @Override
+                    public void onResponse(Call<List<ListCard>> call, Response<List<ListCard>> response) {
+                        all_listCards = response.body();
+                    }
 
+                    @Override
+                    public void onFailure(Call<List<ListCard>> call, Throwable throwable) {
+
+                    }
+                });
     }
 
     @Override
@@ -182,7 +202,7 @@ public class All_Lists_Fragment extends Fragment {
     public static int getListID(){
         return listID;
     }
-
+/*
     public static boolean loadLists(ResultSet listCard) throws SQLException {
         ListCard list = new ListCard(listCard.getString("ListTitle"), listCard.getInt("NumberOfTasks"),
                 listCard.getInt("BackgroundColor"));
@@ -191,7 +211,7 @@ public class All_Lists_Fragment extends Fragment {
         System.out.println("the list has been added and the size now is: " + all_listCards.size());
         return true;
     }
-
+*/
     public static void refreshPage(){
         all_lists_adapter = new All_Lists_Adapter(all_listCards);
         all_lists_recyclerview.setAdapter(all_lists_adapter);

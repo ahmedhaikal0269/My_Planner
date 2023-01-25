@@ -24,8 +24,6 @@ import java.util.List;
 import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
 import ahmed.haikal.myplanner.ClientServerCalls.TaskApi;
 import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.Controller.Listeners.Task_Touch_Listener;
 import ahmed.haikal.myplanner.Model.AddNewTask;
 import ahmed.haikal.myplanner.Model.TaskCard;
@@ -196,9 +194,12 @@ public class TaskListFragment extends Fragment {
         updateFields.add(field);
         ArrayList<String> updateValues = new ArrayList<>();
         updateValues.add(status);
+        /*
         DatabaseTask update = new DatabaseTask.UpdateRecords(DatabaseController.getInstance(), "", "TASKS",
                 "TaskID", String.valueOf(getTaskID(position)), updateFields, updateValues, null);
         update.execute();
+
+         */
     }
 
     public static void updateTaskID(TaskCard task){
@@ -218,8 +219,11 @@ public class TaskListFragment extends Fragment {
     }
 
     public static void deleteTask(int position){
+        /*
         DatabaseTask deleteTask = new DatabaseTask.Delete(DatabaseController.getInstance(), "", "TASKS",
                 "TaskID", String.valueOf(getTaskID(position)), null);
         deleteTask.execute();
+
+         */
     }
 }

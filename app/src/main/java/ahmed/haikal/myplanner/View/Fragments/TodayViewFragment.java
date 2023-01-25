@@ -24,7 +24,6 @@ import java.util.List;
 
 import ahmed.haikal.myplanner.Controller.Adapters.TaskListAdapter;
 import ahmed.haikal.myplanner.Controller.Adapters.TodayViewAdapter;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
 import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.Controller.Listeners.Task_Touch_Listener;
 import ahmed.haikal.myplanner.Model.TaskCard;
@@ -97,9 +96,11 @@ public class TodayViewFragment extends Fragment {
         ArrayList<String> values = new ArrayList<>();
         values.add("'" + today + "'");
 
+        /*
         DatabaseTask getTasks = new DatabaseTask.Retrieve(DatabaseController.getInstance(), "TASKS",
                 fields, values, getContext());
         getTasks.execute();
+        */
     }
 
     @Override
@@ -155,14 +156,19 @@ public class TodayViewFragment extends Fragment {
         updateFields.add(field);
         ArrayList<String> updateValues = new ArrayList<>();
         updateValues.add(status);
+
+        /*
         DatabaseTask update = new DatabaseTask.UpdateRecords(DatabaseController.getInstance(), "", "TASKS",
                 "TaskID", String.valueOf(today_task_IDs.get(position)), updateFields, updateValues, null);
         update.execute();
+        */
     }
 
     public static void deleteTask(int position){
+        /*
         DatabaseTask deleteTask = new DatabaseTask.Delete(DatabaseController.getInstance(), "", "TASKS",
                 "TaskID", String.valueOf(today_task_IDs.get(position)), null);
         deleteTask.execute();
+        */
     }
 }

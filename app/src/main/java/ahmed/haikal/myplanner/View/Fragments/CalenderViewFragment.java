@@ -20,8 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.Model.TaskCard;
 import ahmed.haikal.myplanner.R;
 
@@ -47,9 +45,11 @@ public class CalenderViewFragment extends Fragment {
         tasks = new ArrayList<>();
         dates = new ArrayList<>();
         String query = "SELECT * FROM TASKS";
+
+        /*
         DatabaseTask getAllTasks = new DatabaseTask.RetrieveAll(DatabaseController.getInstance(), query, getContext());
         getAllTasks.execute();
-
+        */
     }
 
     @Nullable

@@ -22,7 +22,7 @@ public class DatabaseController {
     private final String dbPassword;
     private static final DatabaseController databaseController = new DatabaseController(
             "jdbc:jtds:sqlserver://10.0.2.2:1433;databaseName=MyPlanner",
-            "sa", "mouserat");
+            "sa", "hklkkms");
 
     private Connection connection;
     private Statement statement;

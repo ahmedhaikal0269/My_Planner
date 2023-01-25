@@ -16,9 +16,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.ArrayList;
 
+import ahmed.haikal.myplanner.ClientServerCalls.ListApi;
+import ahmed.haikal.myplanner.ClientServerCalls.RetrofitService;
 import ahmed.haikal.myplanner.Controller.Adapters.All_Lists_Adapter;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseController;
-import ahmed.haikal.myplanner.Controller.Database.DatabaseTask;
 import ahmed.haikal.myplanner.R;
 import ahmed.haikal.myplanner.View.Activities.HomeScreenActivity;
 import ahmed.haikal.myplanner.View.Fragments.All_Lists_Fragment;
@@ -121,7 +121,7 @@ public class CreateNewList extends DialogFragment {
             ListCard newList = new ListCard(listTitleInputText.getText().toString(), 0, selected_background_color);
             all_lists_adapter.insert(newList);
 
-            //add list in database
+            /*add list in database
             ArrayList<String> inputFields = new ArrayList<>();
             inputFields.add("ListTitle");
             inputFields.add("NumberOfTasks");
@@ -137,6 +137,12 @@ public class CreateNewList extends DialogFragment {
             DatabaseTask createNewList = new DatabaseTask.Insert(DatabaseController.getInstance(),
                     "LISTS", inputFields, inputValues, getContext());
             createNewList.execute();
+            */
+
+            RetrofitService retrofitService = new RetrofitService();
+            ListApi listApi = retrofitService.getRetrofit().create(ListApi.class);
+            listApi.createNewList(newList);
+
             System.out.println("I'm adding a list");
             dismiss();
         });
